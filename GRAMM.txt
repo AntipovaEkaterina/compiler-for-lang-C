@@ -1,0 +1,88 @@
+S -> RETURNTYPE id l_paren ARGLIST r_paren l_brace STATEMENTLIST r_brace.
+
+ARGLIST -> HEAD_ARG_LIST TAIL_ARG_LIST 
+            | .
+HEAD_ARG_LIST -> ARG .
+TAIL_ARG_LIST -> comma ARG TAIL_ARG_LIST 
+            | .
+
+ARG -> AD_TYPE id .
+
+RETURNTYPE -> AD_TYPE 
+            | void . 
+
+AD_TYPE -> int 
+        | char  . 
+
+STATEMENTLIST -> ANUTHING STATEMENTLIST  | .
+
+ANUTHING -> SCANF | PRINTF | IF | WHILE |
+            ANNOUNCEMENT | ARITHMETIC | RETURN .
+
+RETURN -> return RETURN_VALUE semicolon .
+
+RETURN_VALUE -> VALUY_FOR_VAR | . 
+
+VALUY_FOR_VAR -> TERMINAL | oneChar .
+
+SCANF -> scanf l_paren literal comma id r_paren semicolon .
+
+PRINTF -> printf l_paren literal LIT_OR_ID r_paren semicolon.
+
+LIT_OR_ID -> comma id | .
+
+IF -> if l_paren EXPRESSION r_paren l_brace STATEMENTLIST semicolon r_brace ELSE .
+
+ELSE -> else ELSE_T | .
+
+ELSE_T -> l_brace STATEMENTLIST semicolon r_brace | IF.
+
+WHILE -> while l_paren EXPRESSION r_paren l_brace STATEMENTLIST semicolon r_brace .
+
+ANNOUNCEMENT -> AD_TYPE id IDENT semicolon .
+
+IDENT -> l_square MAS r_square | equally EQUAL . 
+
+MAS -> numeric | .
+
+EQUAL -> id |  NEG_SINGS numeric | literal .
+
+EXPRESSION -> TERMINAL EXPRESSION_T .
+
+EXPRESSION_T -> COMPARISON TERMINAL | .
+
+COMPARISON -> d_equally | not_equal | less | more | l_eq | m_eq .
+
+TERMINAL -> PRIORITY .
+
+PRIORITY -> MULT_PR PRIORITY_T .
+
+PRIORITY_T -> ADD_PR_OP MULT_PR PRIORITY_T | . 
+
+MULT_PR -> GROUP MULT_PR_T .
+
+MULT_PR_T -> MULT_PR_OP GROUP MULT_PR_T | E .
+
+MULT_PR_OP -> star | division .
+
+ADD_PR_OP -> plus | minus .
+
+GROUP -> l_paren TERMINAL r_paren | ID_SING_NUM .
+
+ID_SING_NUM -> id METHOD_ARRAY | NEG_SINGS numeric .
+
+METHOD_ARRAY -> CALLMETHOD | EL_OF_ARR | E . 
+
+CALLMETHOD -> l_paren PASSARG r_paren .
+
+EL_OF_ARR -> l_square numeric r_square .
+
+PASSARG -> TERMINAL TAIL_PASS_ARG | .
+TAIL_PASS_ARG -> comma TERMINAL TAIL_PASS_ARG | .
+
+ARITHMETIC -> id equally TERMINAL semicolon .
+
+NEG_SINGS -> minus | plus | .
+
+OR_AND -> or | and .
+

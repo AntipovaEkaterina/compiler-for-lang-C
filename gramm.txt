@@ -1,0 +1,87 @@
+//<comparison> - сравнение
+//announcement-объявление
+//<expression>- условие
+//<statementList>-оператор
+//<group>- часть выражения
+----------------
+G({}, {}, P, S)
+----------------
+P:	
+S -> <returnType> id (<argList>) {
+    <statementList>    
+}
+----------------
+<argList> -> <head_Arg_List><tail_Arg_List> | E
+
+<head_Arg_List> -> <arg>
+<tail_Arg_List> -> ,<arg><tail_Arg_List> | E
+
+<arg> -> <ad_Type> id
+----------------
+<returnType> -> <ad_Type>| void
+<ad_Type> -> int | char
+----------------
+<statementList> -> <anuthing><statementList>  | E
+
+<anuthing> -> <scanf> | <printf> | <if> | <while> | 
+                <announcement> | <arithmetic> | <return>
+----------------
+<return> -> return <return_Value>;
+
+<return_Value> -> <value_For_Var> | E
+<value_For_Var> -> <terminal> | oneChar
+----------------
+<scanf> -> scanf (literal, id);
+----------------
+<printf> -> printf (literal <lit_or_id>);
+<lit_or_id> -> , id | E 
+----------------
+<if> -> if (<expression>) {	<statementList>;} <else>
+
+<else> -> else <else`> | E
+<else`> -> { <statementList>; } | <if> 
+----------------
+<while> -> while (<expression>) { <statementList>; }
+----------------
+<announcement> -> <ad_Type> id<ident> ;
+
+<ident> -> [<mas>] | = <equal>
+
+<mas> -> numeric | E
+<equal> -> id | <neg_sings>numeric | literal   
+----------------
+<expression> -> <terminal><expression`>
+----------------
+<expression`> -> <comparison><terminal> | E
+<comparison> -> == | != | < | <= | > | >=
+----------------
+<terminal> -> <Priority>
+
+<Priority> -> <multPriority><Priority`>
+<Priority`> -> <addPriorityOper><multPriority><Priority`> | E
+
+<multPriority> -> <group><multPriority`>
+<multPriority`> -> <multPriorityOper><group><multPriority`> | E
+----------------
+<multPriorityOper> -> * | /
+<addPriorityOper> -> + | -
+----------------
+<group> -> (<terminal>) | <id_SignNumber>
+
+<id_SignNumber> -> id<method_Array> | <neg_sings>numeric
+
+<method_Array> -> <callMethod> | <elOfArr> | E
+
+<callMethod> -> (<passArg>)
+
+<elOfArr> -> [numeric]
+
+<passArg> -> <terminal><tailPassArg> | E
+<tailPassArg> -> ,<terminal><tailPassArg> | E
+----------------
+<arithmetic> -> id = <terminal>; 
+----------------
+<neg_sings> -> - | + 
+----------------
+<or_and> -> || | && 
+----------------
