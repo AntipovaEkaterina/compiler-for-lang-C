@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "listtokens.h": "c",
+        "listchildren.h": "c"
+    }
+}
