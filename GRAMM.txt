@@ -78,9 +78,12 @@ CALLMETHOD -> l_paren PASSARG r_paren .
 EL_OF_ARR -> l_square numeric r_square .
 
 PASSARG -> TERMINAL TAIL_PASS_ARG | .
+
 TAIL_PASS_ARG -> comma TERMINAL TAIL_PASS_ARG | .
 
-ARITHMETIC -> id equally TERMINAL semicolon .
+ARITHMETIC -> id equally TER_OR_NUM semicolon .
+
+TER_OR_NUM -> TERMINAL | numeric .
 
 NEG_SINGS -> minus | plus | .
 

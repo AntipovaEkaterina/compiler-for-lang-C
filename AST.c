@@ -1,4 +1,4 @@
-#include "AST.h"
+/*#include "AST.h"
 
 AST* Init_Node_AST(ListTokens* Token){
     AST *ast = calloc(1, sizeof(AST*));
@@ -23,3 +23,4 @@ void Add_Child(AST* Node, AST* Parent){
         }
         Par_Node->next = reb;
     }
+    */

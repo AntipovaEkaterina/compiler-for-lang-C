@@ -13,7 +13,7 @@ typedef struct Parser
     ListTokens* Tokens; 
     ListTokens* knots; //lookahead
     int count;
-    AST *root;
+   // AST *root;
 }Parser;
 
 Parser* parser;
@@ -68,6 +68,7 @@ void Id_SignNumber();
 void ElOfArr();
 void PassArg();
 void TailPassArg();
+void Ter_or_Num();
 void Or_And();
 
 

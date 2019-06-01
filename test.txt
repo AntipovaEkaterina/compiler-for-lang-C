@@ -1,1 +1,5 @@
-int main(){ printf("\n");  char a[5];     int a = g;  int b = u;}
+int main(){ printf("\n");
+    char a[5];
+    int a = t;  
+    int b = 5;
+    }

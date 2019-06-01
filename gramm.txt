@@ -79,7 +79,8 @@ S -> <returnType> id (<argList>) {
 <passArg> -> <terminal><tailPassArg> | E
 <tailPassArg> -> ,<terminal><tailPassArg> | E
 ----------------
-<arithmetic> -> id = <terminal>; 
+<arithmetic> -> id = <ter_or_num>; 
+<ter_or_num>-> <terminal> | numeric
 ----------------
 <neg_sings> -> - | + 
 ----------------

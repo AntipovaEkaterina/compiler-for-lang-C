@@ -217,6 +217,7 @@ void Announcement()
 }
 /*
 <arithmetic> -> id = <terminal>; 
+<arithmetic> -> id = <ter_or_num>; 
 */
 void Arithmetic()
 {
@@ -225,8 +226,21 @@ void Arithmetic()
         eating("id");
     }
         eating("equally");
-    Terminal();
+    Ter_or_Num();
         eating("semicolon");
+}
+/*
+<ter_or_num>-> <terminal> | numeric
+*/
+void Ter_or_Num(){
+    if (strcmp(parser->knots->token, "comma") == 0)
+    {
+        eating("comma");
+        Terminal();
+    }else if (strcmp(parser->knots->token, "numeric") == 0)
+    {
+        eating("numeric");
+    } 
 }
 /*
 <return> -> return <return_Value>;
@@ -556,18 +570,6 @@ void Id_SignNumber()
 */
 void ElOfArr()
 {
-   /* if (strcmp(parser->knots->token, "l_square") == 0)
-    {
-        eating("l_square");
-    }
-    if (strcmp(parser->knots->token, "numeric") == 0)
-    {
-        eating("numeric");
-    }
-    if (strcmp(parser->knots->token, "r_square") == 0)
-    {
-        eating("r_square");
-    }*/
     eating("l_square");
     eating("numeric");
     eating("r_square");

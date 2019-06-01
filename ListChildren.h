@@ -1,4 +1,4 @@
-#ifndef LISTCHILDREN_H
+/*#ifndef LISTCHILDREN_H
 #define LISTCHILDREN_H
 
 #include <stdlib.h>
@@ -17,3 +17,4 @@ ListChild *addChild(ListChild *List, AST *Node);
 
 
 #endif
+*/

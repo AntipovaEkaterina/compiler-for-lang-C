@@ -1,4 +1,4 @@
-#ifndef AST_H
+/*#ifndef AST_H
 #define AST_H
 
 #include <stdio.h>
@@ -23,3 +23,4 @@ void Add_Child(AST* Node, AST* Parent);
 
 
 #endif
+*/

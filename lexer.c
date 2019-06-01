@@ -138,7 +138,7 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 				continue;
 			}
 			//пробелы
-			else if (sym == ' ') {
+			else if (sym == ' ' || sym == '\n') {
 				if (i == 0) {
 					column++;
 					continue;
@@ -155,7 +155,7 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 
 			} 
 	
-			else if (sym == '\n') {
+			else if (sym == '\r') {
 				/*if (i == 0){
 					column++;
 					continue;
