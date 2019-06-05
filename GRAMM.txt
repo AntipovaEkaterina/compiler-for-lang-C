@@ -8,7 +8,7 @@ TAIL_ARG_LIST -> comma ARG TAIL_ARG_LIST
 
 ARG -> AD_TYPE id .
 
-RETURNTYPE -> AD_TYPE 
+RETURNTYPE -> int 
             | void . 
 
 AD_TYPE -> int 

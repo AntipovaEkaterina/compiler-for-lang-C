@@ -1,0 +1,71 @@
+----------------
+G({}, {}, P, S)
+----------------
+P:
+S -> <returnType> id (<argList>){
+    <StatementList>
+}
+----------------
+<returnType> -> int | void
+
+<ad_Type> -> int | char
+----------------
+<argList> -> <head_Arg_List><tail_Arg_List> | E
+
+<head_Arg_List> -> <arg>
+<tail_Arg_List> -> ,<arg><tail_Arg_List> | E
+
+<arg> -> <ad_Type> id
+----------------
+<statementList> -> <anuthing><statementList>  | E
+----------------
+<anuthing> -> <scanf> | <printf> | <if> | <while> | 
+                <announcement> | <arithmetic> | <return>
+----------------
+<scanf> -> scanf (literal, id);
+----------------
+<printf> -> printf (literal <lit_or_id>);
+
+<lit_or_id> -> , id | E
+----------------
+<if> -> if (<expr>) { <statementList>} <else>
+
+<else> -> else <else`> | E
+<else`> -> { <statementList> } | <if> 
+----------------
+<while> -> while (<expr>) { <statementList> }
+----------------
+<expr> -> numeric | id <compar>
+
+<copmar> -> <comparison> <id_or_num> | E
+<comparison> -> == | != | < | <= | > | >=
+<or_and> -> || | && 
+----------------
+<announcement> -> <ad_Type> id<ident> ;
+
+<ident> -> [<mas>]<prod_mas> | = numeric
+
+<mas> -> numeric | E
+<prod_mas> -> = <equal> | E
+<equal> -> numeric | literal   
+----------------
+<arithmetic> -> id = <oror>;
+
+<oror> -> <vot> 
+
+<vot> -> <id_or_num> <top>
+<top> -> <mult_or_add> <id_or_num> | E 
+
+<id_or_num> -> id | <neg_sings>numeric
+----------------
+<mult_Oper> -> * | /
+<add_Oper> -> + | -
+<mult_or_add> -> <mult_Oper> | <add_Oper>
+----------------
+<return> -> return <return_Value>;
+
+<return_Value> -> <neg_sings>numeric | E
+----------------
+<neg_sings> -> - | + | E
+----------------
+

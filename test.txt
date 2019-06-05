@@ -1,5 +1,16 @@
-int main(){ printf("\n");
+int main(char a,int v ){ 
+    int d;
+    printf("input number:",  d);
+    scanf("d", d);
     char a[5];
-    int a = t;  
-    int b = 5;
+//    int a = s; 
+//    int b = 2;
+    if ( a == 12 ){
+       int a = 6;
+    }
+    while (a < 1){
+       int b = 1 ;
+    }
+
+    return ;
     }

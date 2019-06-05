@@ -24,7 +24,7 @@ S -> <returnType> id (<argList>) {
 <statementList> -> <anuthing><statementList>  | E
 
 <anuthing> -> <scanf> | <printf> | <if> | <while> | 
-                <announcement> | <arithmetic> | <return>
+                <announcement> | <arithmetic> |	<arf> | <return>
 ----------------
 <return> -> return <return_Value>;
 
@@ -36,12 +36,19 @@ S -> <returnType> id (<argList>) {
 <printf> -> printf (literal <lit_or_id>);
 <lit_or_id> -> , id | E 
 ----------------
-<if> -> if (<expression>) {	<statementList>;} <else>
+<if> -> if (<expression>) {	<statementList} <else>
 
 <else> -> else <else`> | E
 <else`> -> { <statementList>; } | <if> 
 ----------------
-<while> -> while (<expression>) { <statementList>; }
+<arf> -> id = <vot>
+
+<num> -> <neg_sings>numeric <mul_or_add> <neg_sings>numeric ;
+<idd> -> id <mul_or_add> id;
+<id_or_num> -> id <mul_or_add> <neg_sings>numeric ;
+<vot> -> <num> | <idd> | <id_or_num> 
+----------------
+<while> -> while (<expression>) { <statementList> }
 ----------------
 <announcement> -> <ad_Type> id<ident> ;
 
@@ -65,6 +72,7 @@ S -> <returnType> id (<argList>) {
 ----------------
 <multPriorityOper> -> * | /
 <addPriorityOper> -> + | -
+<mul_or_add> -> <multPriorityOper> | <addPriorityOper>
 ----------------
 <group> -> (<terminal>) | <id_SignNumber>
 
@@ -82,7 +90,7 @@ S -> <returnType> id (<argList>) {
 <arithmetic> -> id = <ter_or_num>; 
 <ter_or_num>-> <terminal> | numeric
 ----------------
-<neg_sings> -> - | + 
+<neg_sings> -> - | + | E
 ----------------
 <or_and> -> || | && 
 ----------------

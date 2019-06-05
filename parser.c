@@ -16,10 +16,7 @@ S -> <returnType> id (<argList>) { <statementList> }
 void S(){
     
     ReturnType();
-    if (strcmp(parser->knots->token, "id") == 0)
-    {
         eating("id");
-    }
         eating("l_paren");
     ArgList();
         eating("r_paren");
@@ -28,18 +25,18 @@ void S(){
         eating("r_brace");
 }
 /*
-<returnType> -> <ad_Type>| void
+<returnType> -> int | void
 */
 void ReturnType()
 {
-    if(strcmp(parser->knots->token, "int")  == 0 || 
-        strcmp(parser->knots->token, "char") == 0)
+    if(strcmp(parser->knots->token, "int")  == 0)
     {
-        Ad_Type();
+        eating("int");
     }else if (strcmp(parser->knots->token,"void") == 0)
     {
         eating("void");
     }
+
 }
 /*
 <ad_Type> -> int | char
@@ -67,16 +64,31 @@ void ArgList()
     }   
 }
 /*
+<head_Arg_List> -> <arg>
+*/
+void Head_Arg_List()
+{
+    Arg();
+}
+/*
+<tail_Arg_List> -> ,<arg><tail_Arg_List> | E
+*/
+void Tail_Arg_List()
+{
+    if (strcmp(parser->knots->token, "comma" ) == 0)
+    {
+        eating("comma");
+        Arg();
+        Tail_Arg_List();
+    }
+}
+/*
 <arg> -> <ad_Type> id
 */
 void Arg()
 {
         Ad_Type();
-        if (strcmp(parser->knots->token, "id") == 0)
-        {
-            eating("id");
-        }
-        
+        eating("id");       
 }
 /*
 <statementList> -> <anuthing><statementList>  | E
@@ -94,25 +106,6 @@ void StatemenList()
     {
         Anuthing();
         StatemenList();
-    }
-}
-/*
-<head_Arg_List> -> <arg>
-*/
-void Head_Arg_List()
-{
-    Arg();
-}
-/*
-<tail_Arg_List> -> ,<arg><tail_Arg_List> | E
-*/
-void Tail_Arg_List()
-{
-    if (strcmp(parser->knots->token, "comma" ) == 0)
-    {
-        eating("comma");
-        Arg();
-        Tail_Arg_List();
     }
 }
 /*
@@ -171,158 +164,30 @@ void Printf()
         eating("semicolon");
 }
 /*
-<if> -> if (<expression>) {	<statementList>;} <else>
-*/
-void If()
-{
-        eating("if");
-        eating("l_paren");
-    Expression();
-        eating("r_paren");
-        eating("l_brace");
-    StatemenList();
-        eating("semicolon");
-        eating("r_brace");
-    Else();
-}
-/*
-<while> -> while (<expression>) { <statementList>; }
-*/
-void While()
-{
-        eating("while");
-        eating("l_paren");
-    Expression();
-        eating("r_paren");
-        eating("l_brace");
-    StatemenList();
-        eating("semicolon");
-        eating("r_brace");
-}
-/*
-<announcement> -> <ad_Type> id<ident> ;
-*/
-void Announcement()
-{
-    Ad_Type();
-    if (strcmp(parser->knots->token, "id") == 0)
-    {
-        eating("id");
-    }
-    Ident();
-    if (strcmp(parser->knots->token, "semicolon") == 0)
-    {
-        eating("semicolon");
-    }
-}
-/*
-<arithmetic> -> id = <terminal>; 
-<arithmetic> -> id = <ter_or_num>; 
-*/
-void Arithmetic()
-{
-    if (strcmp(parser->knots->token, "id") == 0)
-    {
-        eating("id");
-    }
-        eating("equally");
-    Ter_or_Num();
-        eating("semicolon");
-}
-/*
-<ter_or_num>-> <terminal> | numeric
-*/
-void Ter_or_Num(){
-    if (strcmp(parser->knots->token, "comma") == 0)
-    {
-        eating("comma");
-        Terminal();
-    }else if (strcmp(parser->knots->token, "numeric") == 0)
-    {
-        eating("numeric");
-    } 
-}
-/*
-<return> -> return <return_Value>;
-*/
-void Return()
-{
-    if (strcmp(parser->knots->token, "return") == 0)
-    {
-        eating("return");
-    }
-    Return_Value();
-    if (strcmp(parser->knots->token, "semicolon") == 0)
-    {
-        eating("semicolon");
-    }
-}
-/*
-<return_Value> -> <value_For_Var> | E
-*/
-void Return_Value()
-{
-    if (strcmp(parser->knots->token, "l_paren") == 0)
-    {
-        eating("l_paren");
-        Value_For_Var();
-    }
-}
-/*
-<value_For_Var> -> <terminal> | oneChar
-*/
-void Value_For_Var()
-{
-    if (strcmp(parser->knots->token, "l_paren") == 0)
-    {
-        eating("l_paren");
-        Terminal();
-    }else if (strcmp(parser->knots->token, "OneChar") == 0)
-    {
-        eating("OneChar");
-    }
-}
-/*
-<terminal> -> <Priority>
-*/
-void Terminal()
-{
-    Priority();
-}
-/*
-<lit_or_id> -> , id | E 
+<lit_or_id> -> , id | E
 */
 void Lit_or_id()
 {
     if (strcmp(parser->knots->token, "comma") == 0)
     {
         eating("comma");
-            eating("id");
-    }   
-}
-/*
-<expression> -> <terminal><expression`>
-*/
-void Expression()
-{
-    Terminal();
-    Expression_T();
-}
-/*
-<expression_t> -> <comparison><terminal> | E
-*/
-void Expression_T()
-{
-    if (strcmp(parser->knots->token, "d_equally") == 0 || 
-        strcmp(parser->knots->token, "not_equal") == 0 ||
-        strcmp(parser->knots->token, "less") == 0 ||
-        strcmp(parser->knots->token, "more") == 0 ||
-        strcmp(parser->knots->token, "l_eq") == 0 || 
-        strcmp(parser->knots->token, "m_eq") == 0)
-    {
-        Comparison();
-        Terminal();
+        eating("id"); 
     }
+        
+}
+/*
+<if> -> if (<expr>) { <statementList>} <else>
+*/
+void If()
+{
+        eating("if");
+        eating("l_paren");
+    Expr();
+        eating("r_paren");
+        eating("l_brace");
+    StatemenList(); 
+        eating("r_brace");
+    Else();
 }
 /*
 <else> -> else <else`> | E
@@ -336,67 +201,61 @@ void Else()
     }
 }
 /*
-<else`> -> { <statementList>; } | <if> 
+<else_t> -> { <statementList> } | <if> 
 */
 void Else_T()
 {
     if (strcmp(parser->knots->token, "l_paren") == 0)
     {
         eating("l_paren");
-        StatemenList();
-            eating("semicolon");
-            eating("r_paren");
+    StatemenList();
+        eating("r_paren");
     } else if (strcmp(parser->knots->token, "if") == 0)
     {
         If();
     }
 }
 /*
-<ident> -> [<mas>] | = <equal>
+<while> -> while (<expr>) { <statementList> }
 */
-void Ident()
+void While()
 {
-    if (strcmp(parser->knots->token, "l_square") == 0)
-    {
-        eating("l_square");
-        Mas();
-            eating("r_square");
-    } else if (strcmp(parser->knots->token, "equally") == 0)
-    {
-        eating("equally");
-        Equal();
-    }
+        eating("while");
+        eating("l_paren");
+    Expr();
+        eating("r_paren");
+        eating("l_brace");
+    StatemenList();
+        eating("r_brace");
 }
 /*
-<mas> -> numeric | E
+<expr> -> numeric | id <compar>
 */
-void Mas()
+void Expr()
 {
     if (strcmp(parser->knots->token, "numeric") == 0)
     {
         eating("numeric");
+    }else if (strcmp(parser->knots->token, "id") == 0)
+    {
+        eating("id");
+        Compar();
     }
 }
 /*
-<equal> -> id | <neg_sings>numeric | literal
+<copmar> -> <comparison> <id_or_num> | E
 */
-void Equal()
-{
-    if (strcmp(parser->knots->token, "id") == 0)
+void Compar(){
+    if (strcmp(parser->knots->token, "d_equally") == 0 || 
+        strcmp(parser->knots->token, "not_equal") == 0 ||
+        strcmp(parser->knots->token, "less") == 0 ||
+        strcmp(parser->knots->token, "more") == 0 ||
+        strcmp(parser->knots->token, "l_eq") == 0 || 
+        strcmp(parser->knots->token, "m_eq") == 0)
     {
-        eating("id");
-    }else if (strcmp(parser->knots->token, "-") == 0 ||
-            strcmp(parser->knots->token, "+") == 0)
-    {
-        Neg_Sings();
-        if (strcmp(parser->knots->token, "numeric") == 0)
-        {
-            eating("numeric");
-        }
-    } else if (strcmp(parser->knots->token, "literal") == 0)
-    {
-        eating("literal");
-    }    
+        Comparison();
+        Id_or_Num();
+    }
 }
 /*
 <comparison> -> == | != | < | <= | > | >=
@@ -424,180 +283,6 @@ void Comparison()
     }
 }
 /*
-<Priority> -> <multPriority><Priority`>
-*/
-void Priority()
-{
-    MultPriority();
-    Priority_T();
-}
-/*
-<Priority`> -> <addPriorityOper><multPriority><Priority`> | E
-*/
-void Priority_T()
-{
-    if (strcmp(parser->knots->token, "plus") == 0 || 
-        strcmp(parser->knots->token, "minus") == 0)
-    {
-        AddPriorityOper();
-        MultPriority();
-        Priority_T();
-    }
-}
-/*
-<multPriority> -> <group><multPriority`>
-*/
-void MultPriority()
-{
-    Group();
-    MultPriority_T();
-}
-/*
-<multPriority`> -> <multPriorityOper><group><multPriority`> | E
-*/
-void MultPriority_T()
-{
-    if (strcmp(parser->knots->token, "star") == 0 || 
-        strcmp(parser->knots->token, "division") == 0)
-    {
-        MultPriorityOper();
-        Group();
-        MultPriority_T();
-    }    
-}
-/*
-<multPriorityOper> -> * | /
-*/
-void MultPriorityOper()
-{
-    if (strcmp(parser->knots->token, "star") == 0)
-    {
-        eating("star");
-    }else if (strcmp(parser->knots->token, "division") == 0)
-    {
-        eating("division");
-    }
-}
-/*
-<addPriorityOper> -> + | -
-*/
-void AddPriorityOper()
-{
-    if (strcmp(parser->knots->token, "plus") == 0)
-    {
-        eating("plus");
-    }else if (strcmp(parser->knots->token, "minus") == 0)
-    {
-        eating("minus");
-    }
-}
-/*
-<group> -> (<terminal>) | <id_SignNumber>
-*/
-void Group()
-{
-    if (strcmp(parser->knots->token, "l_paren") == 0)
-    {
-        eating("l_paren");
-        Terminal();
-        if (strcmp(parser->knots->token, "r_paren") == 0)
-        {
-            eating("r_paren");
-        }
-    }else if (strcmp(parser->knots->token, "id")  == 0||
-              strcmp(parser->knots->token, "minus") == 0 ||
-              strcmp(parser->knots->token, "plus") == 0  )
-    {
-        Id_SignNumber();
-    }
-}
-/*
-<method_Array> -> <callMethod> | <elOfArr> | E
-*/
-void Method_Array()
-{
-    if (strcmp(parser->knots->token, "l_paren") == 0)
-    {
-        CallMethod();
-    }else if (strcmp(parser->knots->token, "l_square") == 0)
-    {
-        ElOfArr();
-    }
-}
-/*
-<callMethod> -> (<passArg>)
-*/
-void CallMethod()
-{
-        eating("l_paren");
-    PassArg();
-        eating("r_paren");
-}
-/*
-<neg_sings> -> - | + 
-*/
-void Neg_Sings()
-{
-    if (strcmp(parser->knots->token, "plus") == 0)
-    {
-        eating("plus");
-    }else if (strcmp(parser->knots->token, "minus") == 0)
-    {
-        eating("minus");
-    }
-}
-/*
-<id_SignNumber> -> id<method_Array> | <neg_sings>numeric
-*/
-void Id_SignNumber()
-{
-    if (strcmp(parser->knots->token, "id") == 0)
-    {
-        eating("id");
-        Method_Array();
-    }else if (strcmp(parser->knots->token, "minus") == 0 ||
-              strcmp(parser->knots->token, "plus") == 0)
-    {
-        Neg_Sings();
-        if (strcmp(parser->knots->token, "numeric") == 0)
-        {
-            eating("numeric");
-        }
-    }
-}
-/*
-<elOfArr> -> [numeric]
-*/
-void ElOfArr()
-{
-    eating("l_square");
-    eating("numeric");
-    eating("r_square");
-}
-/*
-<passArg> -> <terminal><tailPassArg> | E
-*/
-void PassArg()
-{
-    if (strcmp(parser->knots->token, "l_paren") == 0)
-    {
-        Terminal();
-        Tail_Arg_List();
-    }
-}
-/*
-<tailPassArg> -> ,<terminal><tailPassArg> | E
-*/
-void TailPassArg()
-{
-    if (strcmp(parser->knots->token, "comma") == 0)
-    {
-        eating("comma");
-        Terminal();
-        TailPassArg();
-    }
-}
-/*
 <or_and> -> || | && 
 */
 void Or_And()
@@ -608,6 +293,198 @@ void Or_And()
     }else if (strcmp(parser->knots->token, "and") == 0)
     {
         eating("and");
+    }
+}
+/*
+<announcement> -> <ad_Type> id<ident> ;
+*/
+void Announcement()
+{
+    Ad_Type();
+        eating("id");
+    Ident();
+        eating("semicolon");
+}
+/*
+<ident> -> [<mas>]<prod_mas> | = numeric
+*/
+void Ident()
+{
+    if (strcmp(parser->knots->token, "l_square") == 0)
+    {
+        eating("l_square");
+        Mas();
+            eating("r_square");
+        Prod_mas();
+    } else if (strcmp(parser->knots->token, "equally") == 0)
+    {
+        eating("equally");
+        eating("numeric");
+    }
+}
+/*
+<mas> -> numeric | E
+*/
+void Mas()
+{
+    if (strcmp(parser->knots->token, "numeric") == 0)
+    {
+        eating("numeric");
+    }
+}
+/*
+<prod_mas> -> = <equal> | E
+*/
+void Prod_mas()
+{
+    if (strcmp(parser->knots->token, "equally") == 0)
+    {
+        eating("equally");
+        Equal();
+    }
+}
+/*
+<equal> -> numeric | literal   
+*/
+void Equal()
+{
+    if (strcmp(parser->knots->token, "numeric") == 0)
+    {
+        eating("numeric");
+    }else if (strcmp(parser->knots->token, "literal") == 0)
+    {
+       eating("literal");
+    }
+}
+/*
+<arithmetic> -> id = <oror>;
+*/
+void Arithmetic()
+{
+        eating("id");
+        eating("equally");
+    Oror();
+        eating("semicolon");
+}
+/*
+<oror> -> <vot> 
+*/
+void Oror()
+{
+    Vot();
+}
+/*
+<vot> -> <id_or_num> <top>
+*/
+void Vot()
+{
+    Id_or_Num();
+    Top();
+}
+/*
+<top> -> <mult_or_add> <id_or_num> | E 
+*/
+void Top()
+{
+    if (strcmp(parser->knots->token, "star") == 0 ||
+        strcmp(parser->knots->token, "division") == 0||
+        strcmp(parser->knots->token, "plus") == 0 || 
+        strcmp(parser->knots->token, "minus") == 0)
+    {
+        Mult_or_Add();
+        Id_or_Num();
+    }
+}
+/*
+<id_or_num> -> id | <neg_sings>numeric
+*/
+void Id_or_Num()
+{
+    if (strcmp(parser->knots->token, "id") == 0)
+    {
+        eating("id");
+    } else if (strcmp(parser->knots->token, "minus") == 0 ||
+                strcmp(parser->knots->token, "plus") == 0 ||
+                strcmp(parser->knots->token, "numeric") == 0)
+    {
+        Neg_Sings();
+        eating("numeric");
+    }
+}
+/*
+<mult_Oper> -> * | /
+*/
+void Mult_Oper()
+{
+    if (strcmp(parser->knots->token, "star") == 0)
+    {
+        eating("star");
+    }else if (strcmp(parser->knots->token, "division") == 0)
+    {
+        eating("division");
+    }
+}
+/*
+<add_Oper> -> + | -
+*/
+void Add_Oper()
+{
+    if (strcmp(parser->knots->token, "plus") == 0)
+    {
+        eating("plus");
+    }else if (strcmp(parser->knots->token, "minus") == 0)
+    {
+        eating("minus");
+    }
+}
+/*
+<mult_or_add> -> <mult_Oper> | <add_Oper>
+*/
+void Mult_or_Add()
+{
+    if (strcmp(parser->knots->token, "plus") == 0 ||
+        strcmp(parser->knots->token, "minus") == 0)
+    {
+        Mult_Oper();
+    }else if (strcmp(parser->knots->token, "division") == 0 ||
+                strcmp(parser->knots->token, "star") == 0)
+    {
+        Add_Oper();
+    }
+}
+/*
+<return> -> return <return_Value>;
+*/
+void Return()
+{
+        eating("return");
+    Return_Value();
+        eating("semicolon");
+}
+/*
+<return_Value> -> <neg_sings>numeric | E
+*/
+void Return_Value()
+{
+    if (strcmp(parser->knots->token, "minus") == 0 ||
+                strcmp(parser->knots->token, "plus") == 0 /*||
+                strcmp(parser->knots->token, "numeric") == 0*/)
+    {
+        Neg_Sings();
+        eating("numeric");
+    }
+}
+/*
+<neg_sings> -> - | + | E
+*/
+void Neg_Sings()
+{
+    if (strcmp(parser->knots->token, "plus") == 0)
+    {
+        eating("plus");
+    }else if (strcmp(parser->knots->token, "minus") == 0)
+    {
+        eating("minus");
     }
 }
 
@@ -637,4 +514,3 @@ void Print_Er_Message(int row, int column, char *x)
 {
     printf("%d:%d - ERROR: expecting %s; find %s\n", row, column, x, parser->knots->token);
 }
-

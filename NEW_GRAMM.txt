@@ -1,0 +1,76 @@
+S -> RETURNTYPE id l_paren ARGLIST r_paren l_brace STATEMENTLIST r_brace.
+
+RETURNTYPE -> int 
+            | void .
+
+AD_TYPE -> int 
+        | char  . 
+
+ARGLIST -> HEAD_ARG_LIST TAIL_ARG_LIST 
+            | .
+
+HEAD_ARG_LIST -> ARG .
+
+TAIL_ARG_LIST -> comma ARG TAIL_ARG_LIST 
+            | .
+
+ARG -> AD_TYPE id .
+
+STATEMENTLIST -> ANUTHING STATEMENTLIST  | .
+
+ANUTHING -> SCANF | PRINTF | IF | WHILE |
+            ANNOUNCEMENT | ARITHMETIC | RETURN .
+
+SCANF -> scanf l_paren literal comma id r_paren semicolon .
+
+PRINTF -> printf l_paren literal LIT_OR_ID r_paren semicolon.
+
+LIT_OR_ID -> comma id | .
+
+IF -> if l_paren EXPR r_paren l_brace STATEMENTLIST r_brace ELSE .
+
+ELSE -> else ELSE_T | .
+
+ELSE_T -> l_brace STATEMENTLIST  r_brace | IF.
+
+WHILE -> while l_paren EXPR r_paren l_brace STATEMENTLIST r_brace .
+
+EXPR -> numeric | id COMPAR .
+
+COMPAR -> COMPARISON ID_OR_NUM | .
+
+COMPARISON -> d_equally | not_equal | less | more | l_eq | m_eq .
+
+OR_AND -> or | and .
+
+ANNOUNCEMENT -> AD_TYPE id IDENT semicolon .
+
+IDENT -> l_square MAS r_square PROD_MAS | equally numeric .
+
+MAS -> numeric | .
+
+PROD_MAS -> equally EQUAL | .
+
+EQUAL -> numeric | literal .
+
+ARITHMETIC -> id equally OROR semicolon .
+
+OROR -> VOT  .
+
+VOT -> ID_OR_NUM TOP .
+
+TOP -> MULT_OR_ADD ID_OR_NUM | .
+
+ID_OR_NUM -> id | NEG_SINGS numeric .
+
+MULT_OPER -> star | division .
+
+ADD_OPER -> plus | minus .
+
+MULT_OR_ADD -> MULT_OPER | ADD_OPER .
+
+NEG_SINGS -> minus | plus | .
+
+RETURN -> return RETURN_VALUE semicolon .
+
+RETURN_VALUE -> NEG_SINGS numeric | . 
