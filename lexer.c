@@ -153,9 +153,7 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 				column++;
 				continue;
 
-			} 
-	
-			else if (sym == '\r') {
+			}else if (sym == '\r') {
 				/*if (i == 0){
 					column++;
 					continue;

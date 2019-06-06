@@ -1,4 +1,4 @@
-/*#ifndef LISTCHILDREN_H
+#ifndef LISTCHILDREN_H
 #define LISTCHILDREN_H
 
 #include <stdlib.h>
@@ -7,14 +7,13 @@
 
 #include "AST.h"
 
-typedef struct ListChild {
-    AST *Node;
+struct ListChild {
+    struct AST *Node;
     struct ListChild *next;
-} ListChild;
+};
 
-ListChild *init_ch();
-ListChild *addChild(ListChild *List, AST *Node);
+struct ListChild *init_ch();
+struct ListChild *addChild(struct ListChild *List,struct AST *Node);
 
 
 #endif
-*/

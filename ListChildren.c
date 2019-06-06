@@ -1,19 +1,19 @@
-/*#include "ListChildren.h"
+#include "ListChildren.h"
 
-ListChild *init_ch() {
-    ListChild *ListChildren;
-    ListChildren = (ListChild*)malloc(sizeof(ListChild));
-    ListChildren->Node = NULL;
+struct ListChild *init_ch() {
+    struct ListChild *ListChildren;
+    ListChildren = (struct ListChild*)malloc(sizeof(struct ListChild));
     ListChildren->next = NULL;
+    ListChildren->Node = NULL;
     return ListChildren;
 }
-ListTokens *addChild(ListChild *List, AST *Node) {
+struct ListChild *addChild(struct ListChild *List,struct AST *Node) {
     if (List-> Node == NULL) {
         List->Node = Node; 
         return List;
     } else {
-        ListChild *List2;
-        List2 = (ListChild*)malloc(sizeof(ListChild));
+        struct ListChild *List2;
+        List2 = (struct ListChild*)malloc(sizeof(struct ListChild));
         List->next = List2;
         List->Node = Node; 
         List->next = NULL;

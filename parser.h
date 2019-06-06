@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "ListTokens.h"
+//#include "ListChildren.h"
 #include "lexer.h"
 #include "AST.h"
 
@@ -13,12 +14,12 @@ typedef struct Parser
     ListTokens* Tokens; 
     ListTokens* knots; //lookahead
     int count;
-   // AST *root;
+    struct AST *root;
 }Parser;
 
 Parser* parser;
 
-void Init_Par(ListTokens* Toens);
+void Init_Par(ListTokens* Tokens);
 void eating(char* x);
 void spend();
 void Print_Er_Message(int row, int column, char *x);
@@ -26,7 +27,8 @@ void Print_Er_Message(int row, int column, char *x);
 ListTokens* nextToken();
 
 void S();
-void ReturnType();
+void Func_call();
+void ReturnType(struct AST* StartNode);
 void Ad_Type();
 void ArgList();
 void Head_Arg_List();

@@ -6,6 +6,8 @@ S -> <returnType> id (<argList>){
     <StatementList>
 }
 ----------------
+<func_call> -> id (<argList>);
+----------------
 <returnType> -> int | void
 
 <ad_Type> -> int | char

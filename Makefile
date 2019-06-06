@@ -1,2 +1,2 @@
 all:
-	gcc -Wall main.c lexer.c parser.c ListTokens.c -o main
+	gcc -Wall main.c lexer.c parser.c ListChildren.c AST.c ListTokens.c -o main

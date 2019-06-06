@@ -2,10 +2,10 @@
 
 void Init_Par(ListTokens* Tokens)
 {
-    parser = calloc(1, sizeof(Parser*));
-    parser->Tokens = Tokens;
-    parser->count = 0;
-    parser->knots = Tokens;
+    parser = calloc(1, sizeof(Parser*));  //конструктор, создаем элемент листтокенс 1 кол-во структур 
+    parser->Tokens = Tokens;                //указатель на первый токен
+    parser->count = 0;                      //счетчик узлов
+    parser->knots = Tokens;                 //указатель на текущий токен
 
     S();
     printf("End parsing\n");
@@ -14,8 +14,9 @@ void Init_Par(ListTokens* Tokens)
 S -> <returnType> id (<argList>) { <statementList> }
 */
 void S(){
-    
-    ReturnType();
+    struct AST* StartNode = Init_Node_AST();           //создали структуру (эл-т) узла аст
+    Set_Line(StartNode, "start");
+    ReturnType(StartNode);
         eating("id");
         eating("l_paren");
     ArgList();
@@ -25,16 +26,33 @@ void S(){
         eating("r_brace");
 }
 /*
+<func_call> -> id (<argList>);
+*/
+void Func_call(){
+    eating("id");
+    eating("l_paren");
+    ArgList();
+    eating("r_paren");
+    eating("semicolon");
+}
+/*
 <returnType> -> int | void
 */
-void ReturnType()
+void ReturnType(struct AST* StartNode)
 {
     if(strcmp(parser->knots->token, "int")  == 0)
     {
+        struct AST* ReturnTypeNode = Init_Node_AST();  
+        Set_Line(ReturnTypeNode, "Return type");
+        Add_Child(ReturnTypeNode, StartNode);
+
         eating("int");
     }else if (strcmp(parser->knots->token,"void") == 0)
     {
         eating("void");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING int OR void, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 
 }
@@ -49,6 +67,9 @@ void Ad_Type()
     }else if (strcmp(parser->knots->token, "char") == 0)
     {
        eating("char");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING int OR char, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -59,9 +80,14 @@ void ArgList()
     if (strcmp(parser->knots->token, "int") == 0 || 
         strcmp(parser->knots->token, "char") == 0)
     {
+       /* AST* ArgListNode = Init_Node_AST(); 
+        ArgListNode->Line = calloc(6, sizeof(char*));
+        ArgListNode->Line = "Head arg list";
+        Add_Child(reb, )*/
+
         Head_Arg_List();
         Tail_Arg_List();
-    }   
+    }
 }
 /*
 <head_Arg_List> -> <arg>
@@ -101,7 +127,7 @@ void StatemenList()
         strcmp(parser->knots->token, "while") == 0 ||
         strcmp(parser->knots->token, "int") == 0 ||
         strcmp(parser->knots->token, "char") == 0 ||
-        strcmp(parser->knots->token, "id =") == 0 ||
+        strcmp(parser->knots->token, "id") == 0 ||
         strcmp(parser->knots->token, "return") == 0)
     {
         Anuthing();
@@ -136,6 +162,9 @@ void Anuthing()
     }else if (strcmp(parser->knots->token, "return") == 0)
     {
         Return();
+    }else{
+        printf("ERROR: %d:%d: EXPECTING scanf OR printf OR while OR if OR int OR char OR id OR return, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -213,6 +242,9 @@ void Else_T()
     } else if (strcmp(parser->knots->token, "if") == 0)
     {
         If();
+    }else{
+        printf("ERROR: %d:%d: EXPECTING l_paren OR if, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -240,6 +272,9 @@ void Expr()
     {
         eating("id");
         Compar();
+    }else{
+        printf("ERROR: %d:%d: EXPECTING numeric OR id, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -280,6 +315,9 @@ void Comparison()
     }else if (strcmp(parser->knots->token, "m_eq") == 0)
     {
         eating("m_eq");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING == OR != OR < OR <= OR > OR >= , FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -293,6 +331,9 @@ void Or_And()
     }else if (strcmp(parser->knots->token, "and") == 0)
     {
         eating("and");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING or OR and, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -319,7 +360,13 @@ void Ident()
     } else if (strcmp(parser->knots->token, "equally") == 0)
     {
         eating("equally");
-        eating("numeric");
+        Id_or_Num();
+        Mult_or_Add();
+        Id_or_Num();
+        //eating("numeric");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING l_square OR equally, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -354,6 +401,9 @@ void Equal()
     }else if (strcmp(parser->knots->token, "literal") == 0)
     {
        eating("literal");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING numeric OR literal, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -409,6 +459,9 @@ void Id_or_Num()
     {
         Neg_Sings();
         eating("numeric");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING id OR minus OR plus, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -422,6 +475,9 @@ void Mult_Oper()
     }else if (strcmp(parser->knots->token, "division") == 0)
     {
         eating("division");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING star OR division, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -435,6 +491,9 @@ void Add_Oper()
     }else if (strcmp(parser->knots->token, "minus") == 0)
     {
         eating("minus");
+    }else{
+        printf("ERROR: %d:%d: EXPECTING plus OR minus, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -445,11 +504,14 @@ void Mult_or_Add()
     if (strcmp(parser->knots->token, "plus") == 0 ||
         strcmp(parser->knots->token, "minus") == 0)
     {
-        Mult_Oper();
+        Add_Oper();
     }else if (strcmp(parser->knots->token, "division") == 0 ||
                 strcmp(parser->knots->token, "star") == 0)
     {
-        Add_Oper();
+        Mult_Oper();
+    }else{
+        printf("ERROR: %d:%d: EXPECTING plus OR minus OR division OR star, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
     }
 }
 /*
@@ -467,8 +529,8 @@ void Return()
 void Return_Value()
 {
     if (strcmp(parser->knots->token, "minus") == 0 ||
-                strcmp(parser->knots->token, "plus") == 0 /*||
-                strcmp(parser->knots->token, "numeric") == 0*/)
+                strcmp(parser->knots->token, "plus") == 0 ||
+                strcmp(parser->knots->token, "numeric") == 0)
     {
         Neg_Sings();
         eating("numeric");

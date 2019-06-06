@@ -6,6 +6,8 @@ RETURNTYPE -> int
 AD_TYPE -> int 
         | char  . 
 
+FUNC_CALL -> id l_paren ARGLIST r_paren semicolon .
+
 ARGLIST -> HEAD_ARG_LIST TAIL_ARG_LIST 
             | .
 

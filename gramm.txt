@@ -3,6 +3,17 @@
 //<expression>- условие
 //<statementList>-оператор
 //<group>- часть выражения
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+<func_call> -> id (<argList>);
+
+
+
+
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ----------------
 G({}, {}, P, S)
 ----------------
@@ -94,3 +105,80 @@ S -> <returnType> id (<argList>) {
 ----------------
 <or_and> -> || | && 
 ----------------
+добавить 
+
+CLASS -> class id l_brace METHOD_LIST r_brace.
+
+METHOD_LIST -> METHOD METHOD_LIST | .
+
+METHOD -> static RETURN_TYPE id l_par ARG_LIST r_par
+		  l_brace STATEMENT_LIST r_brace.
+
+RETURN_TYPE -> DATA_TYPE | void.
+
+ARG_LIST -> HEAD_ARG_LIST TAIL_ARG_LIST | .
+
+STATEMENT_LIST -> STATEMENT_INIT STATEMENT_LIST
+				  | STATEMENT STATEMENT_LIST | .
+
+DATA_TYPE -> int | char.
+
+HEAD_ARG_LIST -> ARG.
+
+TAIL_ARG_LIST -> coma ARG TAIL_ARG_LIST | .
+
+STATEMENT_INIT -> DATA_TYPE INIT.
+
+STATEMENT -> id DEF semi | IF | WHILE | RETURN.
+
+ARG -> DATA_TYPE id.
+
+INIT -> INIT_VAR | INIT_ARRAY.
+
+DEF -> DEF_VAR | DEF_ARRAY | CALL_METHOD | OUT_PUT.
+
+INIT_VAR -> id INIT_VALUE semi.
+
+INIT_ARRAY -> l_sq r_sq id ALLOC sime.
+
+INIT_VALUE -> DEF_VAR | . 
+
+DEF_VAR -> assign VALUE_FOR_VAR.
+
+DEF_ARRAY -> l_sq num_const r_sq DEF_VAR.
+
+CALL_METHOD -> l_par PASS_ARG r_par.
+
+OUT_PUT -> point id l_par literal r_par.
+
+ALLOC -> assign new DATA_TYPE l_sq num_const r_sq | .
+
+VALUE_FOR_VAR -> TERM | oneChar.
+
+PASS_ARG -> TERM TAIL_PASS_ARG | .
+
+TERM -> ADD_PRIOR1.
+
+ADD_PRIOR1 -> MULT_PRIOR1 ADD_PRIOR2.
+
+ADD_PRIOR2 -> ADD_PRIOR_OPER MULT_PRIOR1 ADD_PRIOR2  | .
+
+MULT_PRIOR1 -> GROUP  MULT_PRIOR2.
+
+MULT_PRIOR2 -> MULT_PRIOR_OPER GROUP MULT_PRIOR2 | .
+
+GROUP -> l_par TERM r_par | ID_OR_SIGN_NAMBER.
+
+MULT_PRIOR_OPER -> mult | div.
+
+ADD_PRIOR_OPER -> add | sub.
+
+ID_OR_SIGN_NAMBER -> id METHOD_OR_ARRAY | SIGN_NAMBER.
+
+METHOD_OR_ARRAY -> CALL_METHOD | EL_OF_ARR | .
+
+SIGN_NAMBER -> SIGN num_const.
+
+SIGN -> sub | add | .
+
+EL_OF_ARR -> l_sq num_const r_sq.
