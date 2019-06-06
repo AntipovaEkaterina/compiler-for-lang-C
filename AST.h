@@ -21,5 +21,9 @@ struct AST* Init_Node_AST();
 
 void Add_Child(struct AST* Node, struct AST* Parent);
 void Set_Line(struct AST* node, char *str);
+void Construc_Tree(struct AST* Node);
+void Construc_Connect(FILE *graph, struct AST* Node);
+void Create_Box(FILE *graph, struct AST* Node);
+void Line_Output(FILE *graph, struct AST* Node);
 
 #endif

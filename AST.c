@@ -36,3 +36,36 @@ void Set_Line(struct AST *node, char* str )
     node->Line = (char*) calloc(strlen(str), sizeof(char*));
     strcpy(node->Line, str);
 }
+void Construc_Tree(struct AST* Node)
+{
+    FILE *graph;
+    if((graph = fopen ("graph.gv", "w")) == NULL){
+        printf("!!!!!!!!!I CANN'T OPEN FILE!!!!!!!!!!\n");
+        exit(1);
+    }
+    fprintf(graph, "D-I-G-R-A-P-H {\n");
+    Construc_Connect(graph, Node);
+    fprintf(graph, "}\n");
+}
+void Construc_Connect(FILE *graph, struct AST* Node)
+{
+    Create_Box(graph, Node);
+    struct ListChild* reb = Node->ListChildren;
+    while (reb != NULL)
+    {
+        fprintf(graph, "\t");
+        Line_Output(graph, Node);
+        fprintf(graph, "->");
+        Line_Output(graph, reb->Node);
+        fprintf(graph, "\n");
+        Construc_Connect(graph, reb->Node);
+    }   
+}
+void Create_Box(FILE *graph, struct AST* Node)
+{
+    fprintf(graph,"\t\"NODE%d\" [LABEL=%s]", Node->Node_id, Node->Line);
+}
+void Line_Output(FILE *graph, struct AST* Node)
+{
+    fprintf(graph, "\"NODE %d\"", Node->Node_id);
+}

@@ -19,14 +19,14 @@ typedef struct Parser
 
 Parser* parser;
 
-void Init_Par(ListTokens* Tokens);
+struct AST* Init_Par(ListTokens* Tokens);
 void eating(char* x);
 void spend();
 void Print_Er_Message(int row, int column, char *x);
 
 ListTokens* nextToken();
 
-void S();
+void S(Parser* parser);
 void Func_call();
 void ReturnType(struct AST* StartNode);
 void Ad_Type();
