@@ -2,7 +2,7 @@
 
 struct AST* Init_Par(ListTokens* Tokens)
 {
-    parser = calloc(1, sizeof(Parser*));  //конструктор, создаем элемент листтокенс 1 кол-во структур 
+    parser = (Parser*) calloc(1, sizeof(Parser));  //конструктор, создаем элемент листтокенс 1 кол-во структур 
     parser->Tokens = Tokens;                //указатель на первый токен
     parser->count = 0;                      //счетчик узлов
     parser->knots = Tokens;                 //указатель на текущий токен
@@ -41,7 +41,7 @@ void S(Parser* parser){
         eating("l_paren");
         
     struct AST* ArgListNode = Init_Node_AST();
-    Set_Line(ArgListNode, "Arg List");
+    Set_Line(ArgListNode, "Arg_List");
     Add_Child(ArgListNode, IdNode);    
 
     ArgList(ArgListNode);
@@ -58,7 +58,7 @@ void S(Parser* parser){
 /*
 <func_call> -> id (<argList>);
 */
-void Func_call(StartNode){
+void Func_call(struct AST* StartNode){
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
     IdNode->Token = parser->knots;
@@ -68,7 +68,7 @@ void Func_call(StartNode){
         eating("l_paren");
 
     struct AST* ArgListNode = Init_Node_AST();
-    Set_Line(ArgListNode, "Arg List");
+    Set_Line(ArgListNode, "Arg_List");
     Add_Child(ArgListNode, IdNode);
 
     ArgList(ArgListNode);
@@ -135,7 +135,6 @@ void Tail_Arg_List(struct AST* ArgListNode)
     if (strcmp(parser->knots->token, "comma" ) == 0)
     {
         eating("comma");
-
         Arg(ArgListNode);
         Tail_Arg_List(ArgListNode);
     }
@@ -259,19 +258,15 @@ void Printf(struct AST* StetementNode)
     LiteralNode->Token = parser->knots;
 
         eating("literal");
-
-    struct AST* LitOrIdNode = Init_Node_AST();
-    Set_Line(LitOrIdNode, "literal or id");
-    Add_Child(LitOrIdNode, LiteralNode);
     
-    Lit_or_id(PrintfNode);
+    Lit_or_id(LiteralNode);
         eating("r_paren");
         eating("semicolon");
 }
 /*
 <lit_or_id> -> , id | E
 */
-void Lit_or_id(struct AST* PrintfNode)
+void Lit_or_id(struct AST* LiteralNode)
 {
     if (strcmp(parser->knots->token, "comma") == 0)
     {
@@ -279,7 +274,7 @@ void Lit_or_id(struct AST* PrintfNode)
 
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
-        Add_Child(IdNode, PrintfNode);
+        Add_Child(IdNode, LiteralNode);
 
         eating("id"); 
     }   
@@ -295,37 +290,42 @@ void If(struct AST* StetementNode)
 
         eating("if");
         eating("l_paren");
-    Expr();
+
+    Expr(IfNode);
         eating("r_paren");
         eating("l_brace");
-    StatemenList(StetementNode); 
+    StatemenList(IfNode); 
         eating("r_brace");
-    Else();
+    Else(IfNode);
 }
 /*
 <else> -> else <else`> | E
 */
-void Else()
+void Else(struct AST* IfNode)
 {
     if (strcmp(parser->knots->token, "else") == 0)
     {
         eating("else");
-        Else_T();
+        Else_T(IfNode);
     }
 }
 /*
 <else_t> -> { <statementList> } | <if> 
 */
-void Else_T()
+void Else_T(struct AST* IfNode)
 {
     if (strcmp(parser->knots->token, "l_paren") == 0)
     {
+        struct AST* ElseTNode = Init_Node_AST();
+        Set_Line(ElseTNode, "Expresion");
+        Add_Child(ElseTNode, IfNode); 
+
         eating("l_paren");
-    StatemenList(StetementNode);
+    StatemenList(ElseTNode);
         eating("r_paren");
     } else if (strcmp(parser->knots->token, "if") == 0)
     {
-        If(StetementNode);
+        If(IfNode);
     }else{
         printf("ERROR: %d:%d: EXPECTING l_paren OR if, FIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
@@ -342,27 +342,30 @@ void While(struct AST* StetementNode)
     
         eating("while");
         eating("l_paren");
-    Expr();
+    Expr(WhileNode);
         eating("r_paren");
         eating("l_brace");
-    StatemenList(StetementNode);
+    StatemenList(WhileNode);
         eating("r_brace");
 }
 /*
 <expr> -> numeric | id <compar>
 */
-void Expr()
+void Expr(struct AST* Node)
 {
+    struct AST* ExprNode = Init_Node_AST();
+    Set_Line(ExprNode, "Expresion");
+    Add_Child(ExprNode, Node);
+
     if (strcmp(parser->knots->token, "numeric") == 0)
     {
         eating("numeric");
     }else if (strcmp(parser->knots->token, "id") == 0)
     {
-        /*struct AST* IdNode = Init_Node_AST();
+        struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
-        Add_Child(IdNode, ArgListNode);*/
+        Add_Child(IdNode, ExprNode);
         
-
         eating("id");
         Compar();
     }else{
@@ -381,6 +384,7 @@ void Compar(){
         strcmp(parser->knots->token, "l_eq") == 0 || 
         strcmp(parser->knots->token, "m_eq") == 0)
     {
+        
         Comparison();
         Id_or_Num();
     }
@@ -672,8 +676,7 @@ void Neg_Sings()
         eating("minus");
     }
 }
-
-void eating(char* x) //void match
+void eating(char* x) 
 {
     if (strcmp(parser->knots->token, x) == 0){
         spend();//consume
@@ -683,7 +686,6 @@ void eating(char* x) //void match
         exit(1);
     } 
 }
-
 void spend()
 {
     parser->knots = nextToken();
@@ -693,6 +695,11 @@ ListTokens* nextToken()
 {
     parser->count++;
     return parser->knots->next;
+}
+
+ListTokens* Get_knots()
+{
+    return parser->knots;
 }
 
 void Print_Er_Message(int row, int column, char *x)

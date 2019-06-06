@@ -2,7 +2,8 @@
 
 int countNode = 1;
 
-struct AST* Init_Node_AST(){
+struct AST* Init_Node_AST()
+{
     struct AST* ast;
     ast = (struct AST*) calloc(1, sizeof(struct AST));
     ast->Line = NULL;
@@ -13,7 +14,8 @@ struct AST* Init_Node_AST(){
     ast->type = 0;
     return ast;
 }
-void Add_Child(struct AST* Node, struct AST* Parent){
+void Add_Child(struct AST* Node, struct AST* Parent)
+{
     struct ListChild* reb;
     reb = (struct ListChild*) calloc(1, sizeof(struct ListChild)); //reb=child
     reb->next = NULL;
@@ -22,7 +24,8 @@ void Add_Child(struct AST* Node, struct AST* Parent){
     if (Par_Node == NULL)
     {
         Parent-> ListChildren = reb;
-    }else {
+    }else 
+    {
         while (Par_Node->next != NULL)
         {
             Par_Node = Par_Node->next;
@@ -30,12 +33,13 @@ void Add_Child(struct AST* Node, struct AST* Parent){
         Par_Node->next = reb;
     }
 }
-//передает узел и строку и он сам устанавливает 
 void Set_Line(struct AST *node, char* str )
 {
     node->Line = (char*) calloc(strlen(str), sizeof(char*));
     strcpy(node->Line, str);
 }
+void Set_Token(struct AST* node, char *str)
+{ }
 void Construc_Tree(struct AST* Node)
 {
     FILE *graph;
@@ -43,7 +47,7 @@ void Construc_Tree(struct AST* Node)
         printf("!!!!!!!!!I CANN'T OPEN FILE!!!!!!!!!!\n");
         exit(1);
     }
-    fprintf(graph, "D-I-G-R-A-P-H {\n");
+    fprintf(graph, "digraph {\n");
     Construc_Connect(graph, Node);
     fprintf(graph, "}\n");
 }
@@ -59,13 +63,16 @@ void Construc_Connect(FILE *graph, struct AST* Node)
         Line_Output(graph, reb->Node);
         fprintf(graph, "\n");
         Construc_Connect(graph, reb->Node);
+        reb = reb->next;
     }   
 }
 void Create_Box(FILE *graph, struct AST* Node)
 {
-    fprintf(graph,"\t\"NODE%d\" [LABEL=%s]", Node->Node_id, Node->Line);
+    fprintf(graph,"\t\"node%d\"[label=%s]\n", Node->Node_id, Node->Line);
 }
 void Line_Output(FILE *graph, struct AST* Node)
 {
-    fprintf(graph, "\"NODE %d\"", Node->Node_id);
+    fprintf(graph, "\"node%d\"", Node->Node_id);
 }
+
+//dot -Tps graph.gv -o graph.ps

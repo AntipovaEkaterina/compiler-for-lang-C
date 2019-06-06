@@ -25,9 +25,10 @@ void spend();
 void Print_Er_Message(int row, int column, char *x);
 
 ListTokens* nextToken();
+ListTokens* Get_knots();
 
 void S(Parser* parser);
-void Func_call();
+void Func_call(struct AST* StartNode);
 void ReturnType(struct AST* StartNode);
 void Ad_Type();
 void ArgList();

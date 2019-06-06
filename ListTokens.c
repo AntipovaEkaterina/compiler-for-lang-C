@@ -1,6 +1,7 @@
 #include "ListTokens.h"
 
-ListTokens *init() {
+ListTokens *init() 
+{
     ListTokens *ListToken;
     ListToken = (ListTokens*)malloc(sizeof(ListTokens));
     ListToken->row = -1;
@@ -8,14 +9,17 @@ ListTokens *init() {
     return ListToken;
 }
 
-ListTokens *addlexeme(ListTokens *List, char *token, char *lexeme, int row, int column) {
-    if (List->row == -1) {
+ListTokens *addlexeme(ListTokens *List, char *token, char *lexeme, int row, int column) 
+{
+    if (List->row == -1) 
+    {
         strcpy(List->lexeme, lexeme);
         strcpy(List->token, token);
         List->row = row;
         List->column = column;
         return List;
-    } else {
+    } else 
+    {
         ListTokens *List2;
         List2 = (ListTokens*)malloc(sizeof(ListTokens));
         List->next = List2;
@@ -29,10 +33,12 @@ ListTokens *addlexeme(ListTokens *List, char *token, char *lexeme, int row, int 
     return NULL;
 }
 
-void ListPrint(ListTokens *head) {
+void ListPrint(ListTokens *head) 
+{
     ListTokens *print;
     print = head;
-    while (print != NULL) {
+    while (print != NULL) 
+    {
         printf("Position: %d:%d -- %s '%s'\n", print->row, print->column, print->token, print->lexeme);
         print = print->next;
     }

@@ -7,7 +7,8 @@
 
 #include "AST.h"
 
-struct ListChild {
+struct ListChild 
+{
     struct AST *Node;
     struct ListChild *next;
 };

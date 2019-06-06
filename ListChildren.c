@@ -1,17 +1,20 @@
 #include "ListChildren.h"
 
-struct ListChild *init_ch() {
+struct ListChild *init_ch() 
+{
     struct ListChild *ListChildren;
     ListChildren = (struct ListChild*)malloc(sizeof(struct ListChild));
     ListChildren->next = NULL;
     ListChildren->Node = NULL;
     return ListChildren;
 }
-struct ListChild *addChild(struct ListChild *List,struct AST *Node) {
+struct ListChild *addChild(struct ListChild *List,struct AST *Node) 
+{
     if (List-> Node == NULL) {
         List->Node = Node; 
         return List;
-    } else {
+    } else 
+    {
         struct ListChild *List2;
         List2 = (struct ListChild*)malloc(sizeof(struct ListChild));
         List->next = List2;
