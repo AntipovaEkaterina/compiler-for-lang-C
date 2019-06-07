@@ -1,9 +1,7 @@
 int main()
 {
     char b[] = "hello";
-    int a;
-    int b;
-    int c;
+    int a, b, c;
 
     scanf("%d", & a);
     scanf("%d", & b);

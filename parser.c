@@ -212,7 +212,7 @@ void Anuthing(struct AST* StetementNode)
     }
 }
 /*
-<scanf> -> scanf (literal, id);
+<scanf> -> scanf (literal, &id);
 */
 void Scanf(struct AST* StetementNode)
 {
@@ -230,6 +230,7 @@ void Scanf(struct AST* StetementNode)
 
         eating("literal");
         eating("comma");
+        eating("ampersand");
 
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
@@ -476,7 +477,7 @@ void Announcement(struct AST* StetementNode)
         eating("semicolon");
 }
 /*
-<ident> -> [<mas>]<prod_mas> | = <id_or_num> <mult_or_add> <id_or_num> 
+<ident> -> [<mas>]<prod_mas> | = <oror> | , id <ident>| E
 */
 void Ident(struct AST* AnnouncementNode)
 {
@@ -490,21 +491,26 @@ void Ident(struct AST* AnnouncementNode)
         Prod_mas(AnnouncementNode);
     } else if (strcmp(parser->knots->token, "equally") == 0)
     {
-    /*struct AST* EquallyNode = Init_Node_AST();
-    Set_Line(EquallyNode, "equally");*/
-
         struct AST* ComparNode = Init_Node_AST();
         Set_Line(ComparNode, parser->knots->token);
         swapChild(AnnouncementNode, ComparNode);
 
             eating("equally");
-        Id_or_Num(ComparNode);
-        Mult_or_Add(AnnouncementNode);
-        Id_or_Num(ComparNode);
-    }else
+        Oror(ComparNode);
+    } else if (strcmp(parser->knots->token, "comma") == 0)
     {
-        printf("ERROR: %d:%d: EXPECTING l_square OR equally, FIND %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
+            eating("comma");
+
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+
+        /*struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(AnnouncementNode, ComparNode);*/
+
+            eating("id");
+            Ident(AnnouncementNode);
     }
 }
 /*

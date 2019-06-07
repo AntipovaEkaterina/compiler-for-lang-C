@@ -45,7 +45,7 @@ S -> <returnType> id (<argList>){
 ----------------
 <announcement> -> <ad_Type> id<ident> ;
 
-<ident> -> [<mas>]<prod_mas> | = <oror> | E
+<ident> -> [<mas>]<prod_mas> | = <oror> | , id <ident> |E
 
 <mas> -> numeric | E
 <prod_mas> -> = <equal> | E

@@ -1,0 +1,8 @@
+int main(char a,int v ){ 
+  int d, c, f; 
+
+  printf("input number:", d);
+  scanf("d", & d);
+
+  return 1;
+}
