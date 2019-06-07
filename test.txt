@@ -1,19 +1,21 @@
 int main(char a,int v ){ 
    //int d; 
 
-   printf("input number:", d);
-   scanf("d", d);
+  printf("input number:", d);
+  scanf("d", d);
    
-   char a[5];
+  char a[5];
 
-   if ( v == 12 ){
-     v = 6;
-   }
-   while (b < 1){
-     printf("a+b", a);
-     b = 3 + 3;
-   }
+  int d = 1 +2;
 
-   v = b - 1;
-   return 1;
+  if ( v == 12 ){
+    v = 6;
+  }
+  while (b < 1){
+    printf("a+b", a);
+    b = 3 + 3;
+  }
+
+  v = b - 1;
+  return 1;
 }

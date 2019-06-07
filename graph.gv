@@ -14,76 +14,94 @@ digraph {
 	"node7"[label=Printf]
 	"node7"->"node8"
 	"node8"[label=Literal]
-	"node7"->"node9"
+	"node8"->"node9"
 	"node9"[label=id]
 	"node6"->"node10"
 	"node10"[label=Scanf]
 	"node10"->"node11"
 	"node11"[label=Literal]
-	"node10"->"node12"
+	"node11"->"node12"
 	"node12"[label=id]
 	"node6"->"node13"
 	"node13"[label=Announcement]
 	"node13"->"node14"
 	"node14"[label=id]
-	"node14"->"node15"
+	"node13"->"node15"
 	"node15"[label=numeric]
 	"node6"->"node16"
-	"node16"[label=if]
-	"node16"->"node17"
+	"node16"[label=Announcement]
+	"node16"->"node18"
+	"node18"[label=equally]
+	"node18"->"node17"
 	"node17"[label=id]
-	"node17"->"node18"
-	"node18"[label=d_equally]
-	"node17"->"node19"
+	"node18"->"node19"
 	"node19"[label=numeric]
-	"node16"->"node20"
-	"node20"[label=Arithmetic]
-	"node20"->"node21"
-	"node21"[label=id]
+	"node18"->"node20"
+	"node20"[label=numeric]
+	"node6"->"node21"
+	"node21"[label=if]
 	"node21"->"node22"
-	"node22"[label=equally]
-	"node22"->"node23"
-	"node23"[label=numeric]
-	"node6"->"node24"
-	"node24"[label=while]
+	"node22"[label=Expresion]
+	"node22"->"node24"
+	"node24"[label=d_equally]
+	"node24"->"node23"
+	"node23"[label=id]
 	"node24"->"node25"
-	"node25"[label=id]
-	"node25"->"node26"
-	"node26"[label=less]
-	"node25"->"node27"
-	"node27"[label=numeric]
-	"node24"->"node28"
-	"node28"[label=Printf]
-	"node28"->"node29"
-	"node29"[label=Literal]
-	"node28"->"node30"
-	"node30"[label=id]
-	"node24"->"node31"
-	"node31"[label=Arithmetic]
+	"node25"[label=numeric]
+	"node21"->"node26"
+	"node26"[label=StatementList]
+	"node26"->"node27"
+	"node27"[label=Arithmetic]
+	"node27"->"node29"
+	"node29"[label=equally]
+	"node29"->"node28"
+	"node28"[label=id]
+	"node29"->"node30"
+	"node30"[label=numeric]
+	"node6"->"node31"
+	"node31"[label=while]
 	"node31"->"node32"
-	"node32"[label=id]
-	"node32"->"node33"
-	"node33"[label=equally]
-	"node33"->"node34"
-	"node34"[label=numeric]
-	"node33"->"node35"
-	"node35"[label=plus]
-	"node33"->"node36"
-	"node36"[label=numeric]
-	"node6"->"node37"
-	"node37"[label=Arithmetic]
+	"node32"[label=Expresion]
+	"node32"->"node34"
+	"node34"[label=less]
+	"node34"->"node33"
+	"node33"[label=id]
+	"node34"->"node35"
+	"node35"[label=numeric]
+	"node31"->"node36"
+	"node36"[label=StatementList]
+	"node36"->"node37"
+	"node37"[label=Printf]
 	"node37"->"node38"
-	"node38"[label=id]
+	"node38"[label=Literal]
 	"node38"->"node39"
-	"node39"[label=equally]
-	"node39"->"node40"
-	"node40"[label=id]
-	"node39"->"node41"
-	"node41"[label=minus]
-	"node39"->"node42"
-	"node42"[label=numeric]
-	"node6"->"node43"
-	"node43"[label=Return]
-	"node43"->"node44"
-	"node44"[label=numeric]
+	"node39"[label=id]
+	"node36"->"node40"
+	"node40"[label=Arithmetic]
+	"node40"->"node42"
+	"node42"[label=equally]
+	"node42"->"node41"
+	"node41"[label=id]
+	"node42"->"node44"
+	"node44"[label=plus]
+	"node44"->"node43"
+	"node43"[label=numeric]
+	"node44"->"node45"
+	"node45"[label=numeric]
+	"node6"->"node46"
+	"node46"[label=Arithmetic]
+	"node46"->"node48"
+	"node48"[label=equally]
+	"node48"->"node47"
+	"node47"[label=id]
+	"node48"->"node50"
+	"node50"[label=minus]
+	"node50"->"node49"
+	"node49"[label=id]
+	"node50"->"node51"
+	"node51"[label=numeric]
+	"node6"->"node52"
+	"node52"[label=Return]
+	"node52"->"node53"
+	"node53"[label=numeric]
 }

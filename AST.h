@@ -27,4 +27,10 @@ void Construc_Connect(FILE *graph, struct AST* Node);
 void Create_Box(FILE *graph, struct AST* Node);
 void Line_Output(FILE *graph, struct AST* Node);
 
+struct ListChild* searchLastChild(struct AST* node);
+struct AST* getLastChilde(struct AST* node);
+void deleteLastChild(struct AST *node);
+void swapChild(struct AST *parent, struct AST *newChild);
+void addNewChild(struct AST *parent, struct AST *newChild);
+
 #endif

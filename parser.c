@@ -233,7 +233,7 @@ void Scanf(struct AST* StetementNode)
 
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
-    Add_Child(IdNode, ScanfNode);
+    Add_Child(IdNode, LiteralNode);
 
         eating("id");
         eating("r_paren");
@@ -258,22 +258,23 @@ void Printf(struct AST* StetementNode)
 
         eating("literal");
     
-    Lit_or_id(PrintfNode);
+    Lit_or_id(LiteralNode);
         eating("r_paren");
         eating("semicolon");
 }
 /*
 <lit_or_id> -> , id | E
 */
-void Lit_or_id(struct AST* PrintfNode)
+void Lit_or_id(struct AST* LiteralNode)
 {
     if (strcmp(parser->knots->token, "comma") == 0)
-    {
+    {        
+        eating("comma");
+
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
-        Add_Child(IdNode, PrintfNode);
+        Add_Child(IdNode, LiteralNode);
 
-        eating("comma");
         eating("id"); 
     }   
 }
@@ -292,7 +293,12 @@ void If(struct AST* StetementNode)
     Expr(IfNode);
         eating("r_paren");
         eating("l_brace");
-    StatemenList(IfNode); 
+
+    struct AST* StatNode = Init_Node_AST();
+    Set_Line(StatNode, "StatementList");
+    Add_Child(StatNode, IfNode);
+
+    StatemenList(StatNode); 
         eating("r_brace");
     Else(IfNode);
 }
@@ -319,7 +325,12 @@ void Else_T(struct AST* IfNode)
         Add_Child(ElseTNode, IfNode); 
 
         eating("l_paren");
-    StatemenList(ElseTNode);
+
+    struct AST* StatNode = Init_Node_AST();
+    Set_Line(StatNode, "StatementList");
+    Add_Child(StatNode, ElseTNode);
+
+    StatemenList(StatNode);
         eating("r_paren");
     } else if (strcmp(parser->knots->token, "if") == 0)
     {
@@ -343,7 +354,12 @@ void While(struct AST* StetementNode)
     Expr(WhileNode);
         eating("r_paren");
         eating("l_brace");
-    StatemenList(WhileNode);
+
+    struct AST* StatNode = Init_Node_AST();
+    Set_Line(StatNode, "StatementList");
+    Add_Child(StatNode, WhileNode);
+
+    StatemenList(StatNode);
         eating("r_brace");
 }
 /*
@@ -351,25 +367,25 @@ void While(struct AST* StetementNode)
 */
 void Expr(struct AST* Node)
 {
-    /*struct AST* ExprNode = Init_Node_AST();
+    struct AST* ExprNode = Init_Node_AST();
     Set_Line(ExprNode, "Expresion");
-    Add_Child(ExprNode, Node);*/
+    Add_Child(ExprNode, Node);
 
     if (strcmp(parser->knots->token, "numeric") == 0)
     {
         struct AST* NumericNode = Init_Node_AST();
-        Set_Line(NumericNode, "Arg_List");
-        Add_Child(NumericNode, Node);
+        Set_Line(NumericNode, "numeric");
+        Add_Child(NumericNode, ExprNode);
 
         eating("numeric");
     }else if (strcmp(parser->knots->token, "id") == 0)
     {
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
-        Add_Child(IdNode, Node);
+        Add_Child(IdNode, ExprNode);
         
         eating("id");
-        Compar(IdNode);
+        Compar(ExprNode);
     }else{
         printf("ERROR: %d:%d: EXPECTING numeric OR id, FIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
@@ -378,7 +394,7 @@ void Expr(struct AST* Node)
 /*
 <copmar> -> <comparison> <id_or_num> | E
 */
-void Compar(struct AST* IdNode){
+void Compar(struct AST* ExprNode){
     if (strcmp(parser->knots->token, "d_equally") == 0 || 
         strcmp(parser->knots->token, "not_equal") == 0 ||
         strcmp(parser->knots->token, "less") == 0 ||
@@ -386,61 +402,38 @@ void Compar(struct AST* IdNode){
         strcmp(parser->knots->token, "l_eq") == 0 || 
         strcmp(parser->knots->token, "m_eq") == 0)
     {
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
-        /*struct AST* ComparNode = Init_Node_AST();
-        Set_Line(ComparNode, "copmar");
-        Add_Child(ComparNode, IdNode);*/
+        struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(ExprNode, ComparNode);
+        //Add_Child(ComparNode, ExprNode);
 
-        Comparison(IdNode);
-        Id_or_Num(IdNode);
+        Comparison(ExprNode);
+        Id_or_Num(ComparNode);
     }
 }
 /*
 <comparison> -> == | != | < | <= | > | >=
 */
-void Comparison(struct AST* IdNode)
+void Comparison(struct AST* ExprNode)
 {
+    //struct AST* ComparNode = Init_Node_AST();
     if (strcmp(parser->knots->token, "d_equally") == 0)
     {
-        struct AST* DEquallyNode = Init_Node_AST();
-        Set_Line(DEquallyNode, "d_equally");
-        Add_Child(DEquallyNode, IdNode);
-
         eating("d_equally");
     } else if (strcmp(parser->knots->token, "not_equal") == 0)
     {
-        struct AST* NotEquallyNode = Init_Node_AST();
-        Set_Line(NotEquallyNode, "not_equal");
-        Add_Child(NotEquallyNode, IdNode); 
-
         eating("not_equal");
     } else if (strcmp(parser->knots->token, "less") == 0)
     {
-        struct AST* LessNode = Init_Node_AST();
-        Set_Line(LessNode, "less");
-        Add_Child(LessNode, IdNode);
-
         eating("less");
     } else if (strcmp(parser->knots->token, "more") == 0)
     {
-        struct AST* MoreNode = Init_Node_AST();
-        Set_Line(MoreNode, "more");
-        Add_Child(MoreNode, IdNode);
-
         eating("more");
     } else if (strcmp(parser->knots->token, "l_eq") == 0)
     {
-        struct AST* LEqNode = Init_Node_AST();
-        Set_Line(LEqNode, "l_eq");
-        Add_Child(LEqNode, IdNode);
-
         eating("l_eq");
     }else if (strcmp(parser->knots->token, "m_eq") == 0)
     {
-        struct AST* MEqNode = Init_Node_AST();
-        Set_Line(MEqNode, "m_eq");
-        Add_Child(MEqNode, IdNode);
-
         eating("m_eq");
     }else{
         printf("ERROR: %d:%d: EXPECTING == OR != OR < OR <= OR > OR >= , FIND %s\n",
@@ -479,34 +472,37 @@ void Announcement(struct AST* StetementNode)
     Add_Child(IdNode, AnnouncementNode);
 
         eating("id");
-    Ident(IdNode);
+    Ident(AnnouncementNode);
         eating("semicolon");
 }
 /*
 <ident> -> [<mas>]<prod_mas> | = <id_or_num> <mult_or_add> <id_or_num> 
 */
-void Ident(struct AST* IdNode)
+void Ident(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "l_square") == 0)
     {
         //Set_Line(IdNode, "arv");
 
-        eating("l_square");
-        Mas(IdNode);
+            eating("l_square");
+        Mas(AnnouncementNode);
             eating("r_square");
-        Prod_mas(IdNode);
+        Prod_mas(AnnouncementNode);
     } else if (strcmp(parser->knots->token, "equally") == 0)
     {
-    struct AST* EquallyNode = Init_Node_AST();
-    Set_Line(EquallyNode, "equally");
-    Add_Child(EquallyNode, IdNode);
+    /*struct AST* EquallyNode = Init_Node_AST();
+    Set_Line(EquallyNode, "equally");*/
+
+        struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(AnnouncementNode, ComparNode);
 
             eating("equally");
-        Id_or_Num(EquallyNode);
-        Mult_or_Add(EquallyNode);
-        Id_or_Num(EquallyNode);
-        //eating("numeric");
-    }else{
+        Id_or_Num(ComparNode);
+        Mult_or_Add(AnnouncementNode);
+        Id_or_Num(ComparNode);
+    }else
+    {
         printf("ERROR: %d:%d: EXPECTING l_square OR equally, FIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
     }
@@ -514,13 +510,13 @@ void Ident(struct AST* IdNode)
 /*
 <mas> -> numeric | E
 */
-void Mas(struct AST* IdNode)
+void Mas(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "numeric") == 0)
     {
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Add_Child(NumericNode, IdNode);
+        Add_Child(NumericNode, AnnouncementNode);
 
         eating("numeric");
     }
@@ -528,35 +524,35 @@ void Mas(struct AST* IdNode)
 /*
 <prod_mas> -> = <equal> | E
 */
-void Prod_mas(struct AST* IdNode)
+void Prod_mas(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "equally") == 0)
     {
-        struct AST* EquallyNode = Init_Node_AST();
-        Set_Line(EquallyNode, "equally");
-        Add_Child(EquallyNode, IdNode);        
+        struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(AnnouncementNode, ComparNode);       
 
         eating("equally");
-        Equal(IdNode);
+        Equal(ComparNode);
     }
 }
 /*
 <equal> -> numeric | literal   
 */
-void Equal(struct AST* EquallyNode)
+void Equal(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "numeric") == 0)
     {
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Add_Child(NumericNode, EquallyNode);
+        Add_Child(NumericNode, AnnouncementNode);
 
         eating("numeric");
     }else if (strcmp(parser->knots->token, "literal") == 0)
     {
         struct AST* LiteralNode = Init_Node_AST();
         Set_Line(LiteralNode, "Literal");
-        Add_Child(LiteralNode, EquallyNode);
+        Add_Child(LiteralNode, AnnouncementNode);
         LiteralNode->Token = parser->knots;
 
        eating("literal");
@@ -580,12 +576,12 @@ void Arithmetic(struct AST* StetementNode)
 
         eating("id");
 
-    struct AST* EquallyNode = Init_Node_AST();
-    Set_Line(EquallyNode, "equally");
-    Add_Child(EquallyNode, IdNode);
+    struct AST* ComparNode = Init_Node_AST();
+    Set_Line(ComparNode, parser->knots->token);
+    swapChild(ArithmeticNode, ComparNode);
 
         eating("equally");
-    Oror(EquallyNode);
+    Oror(ComparNode);
         eating("semicolon");
 }
 /*
@@ -613,31 +609,35 @@ void Top(struct AST* EquallyNode)
         strcmp(parser->knots->token, "plus") == 0 || 
         strcmp(parser->knots->token, "minus") == 0)
     {
+        struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(EquallyNode, ComparNode);
+
         Mult_or_Add(EquallyNode);
-        Id_or_Num(EquallyNode);
+        Id_or_Num(ComparNode);
     }
 }
 /*
 <id_or_num> -> id | <neg_sings>numeric
 */
-void Id_or_Num(struct AST* EquallyNode)
+void Id_or_Num(struct AST* ComparNode)
 {
     if (strcmp(parser->knots->token, "id") == 0)
     {
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
-        Add_Child(IdNode, EquallyNode);
+        Add_Child(IdNode, ComparNode);
 
         eating("id");
     } else if (strcmp(parser->knots->token, "minus") == 0 ||
                 strcmp(parser->knots->token, "plus") == 0 ||
                 strcmp(parser->knots->token, "numeric") == 0)
     {
-        Neg_Sings(EquallyNode);
+        Neg_Sings(ComparNode);
 
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Add_Child(NumericNode, EquallyNode);
+        Add_Child(NumericNode, ComparNode);
 
         eating("numeric");
     }else
@@ -649,20 +649,20 @@ void Id_or_Num(struct AST* EquallyNode)
 /*
 <mult_Oper> -> * | /
 */
-void Mult_Oper(struct AST* EquallyNode)
+void Mult_Oper(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "star") == 0)
     {
         struct AST* StarNode = Init_Node_AST();
         Set_Line(StarNode, "star");
-        Add_Child(StarNode, EquallyNode);
+        Add_Child(StarNode, AnnouncementNode);
 
         eating("star");
     }else if (strcmp(parser->knots->token, "division") == 0)
     {
         struct AST* DivisionNode = Init_Node_AST();
         Set_Line(DivisionNode, "division");
-        Add_Child(DivisionNode, EquallyNode);
+        Add_Child(DivisionNode, AnnouncementNode);
 
         eating("division");
     }else{
@@ -673,21 +673,13 @@ void Mult_Oper(struct AST* EquallyNode)
 /*
 <add_Oper> -> + | -
 */
-void Add_Oper(struct AST* EquallyNode)
+void Add_Oper(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "plus") == 0)
     {
-        struct AST* PlusNode = Init_Node_AST();
-        Set_Line(PlusNode, "plus");
-        Add_Child(PlusNode, EquallyNode);
-
         eating("plus");
     }else if (strcmp(parser->knots->token, "minus") == 0)
     {
-        struct AST* MinusNode = Init_Node_AST();
-        Set_Line(MinusNode, "minus");
-        Add_Child(MinusNode, EquallyNode);
-
         eating("minus");
     }else{
         printf("ERROR: %d:%d: EXPECTING plus OR minus, FIND %s\n",
@@ -697,16 +689,16 @@ void Add_Oper(struct AST* EquallyNode)
 /*
 <mult_or_add> -> <mult_Oper> | <add_Oper>
 */
-void Mult_or_Add(struct AST* EquallyNode)
+void Mult_or_Add(struct AST* AnnouncementNode)
 {
     if (strcmp(parser->knots->token, "plus") == 0 ||
         strcmp(parser->knots->token, "minus") == 0)
     {
-        Add_Oper(EquallyNode);
+        Add_Oper(AnnouncementNode);
     }else if (strcmp(parser->knots->token, "division") == 0 ||
                 strcmp(parser->knots->token, "star") == 0)
     {
-        Mult_Oper(EquallyNode);
+        Mult_Oper(AnnouncementNode);
     }else{
         printf("ERROR: %d:%d: EXPECTING plus OR minus OR division OR star, FIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
@@ -770,18 +762,15 @@ void spend()
 {
     parser->knots = nextToken();
 }
-
 ListTokens* nextToken()
 {
     parser->count++;
     return parser->knots->next;
 }
-
 ListTokens* Get_knots()
 {
     return parser->knots;
 }
-
 void Print_Er_Message(int row, int column, char *x)
 {
     printf("%d:%d - ERROR: expecting %s; find %s\n", row, column, x, parser->knots->token);
