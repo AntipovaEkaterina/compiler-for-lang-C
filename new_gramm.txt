@@ -24,7 +24,7 @@ S -> <returnType> id (<argList>){
 <anuthing> -> <scanf> | <printf> | <if> | <while> | 
                 <announcement> | <arithmetic> | <return>
 ----------------
-<scanf> -> scanf (literal, id);
+<scanf> -> scanf (literal, &id);
 ----------------
 <printf> -> printf (literal <lit_or_id>);
 
@@ -45,7 +45,7 @@ S -> <returnType> id (<argList>){
 ----------------
 <announcement> -> <ad_Type> id<ident> ;
 
-<ident> -> [<mas>]<prod_mas> | = numeric
+<ident> -> [<mas>]<prod_mas> | = <oror> | E
 
 <mas> -> numeric | E
 <prod_mas> -> = <equal> | E

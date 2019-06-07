@@ -51,6 +51,8 @@ char *DefineToken(char *lexeme) {
       return "or";
     if(strcmp(lexeme, "&&") == 0)
         return "and";
+	if(strcmp(lexeme, "&") == 0)
+        return "ampersand";
     if(strcmp(lexeme, "<") == 0)
         return "less";
     if(strcmp(lexeme, ">") == 0)
