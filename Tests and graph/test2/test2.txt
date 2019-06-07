@@ -1,0 +1,7 @@
+void main()
+{
+    char b[5];
+    int a;
+    a = 1 + 6;
+    printf("%d", a);
+}

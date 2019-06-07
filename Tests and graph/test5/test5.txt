@@ -1,0 +1,11 @@
+void main(char a, char b)
+{
+    int c = 10;
+    int d = 1;
+
+    while(c > d){
+        printf("%d\t", d);
+        d = d + 1;
+    }
+    return ;
+}

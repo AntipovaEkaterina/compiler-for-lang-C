@@ -1,0 +1,14 @@
+int main()
+{
+    char b[] = "hello";
+    int a;
+    int b;
+    int c;
+
+    scanf("%d", & a);
+    scanf("%d", & b);
+
+    c = a + b;
+
+    printf("a+b=%d", c);
+}
