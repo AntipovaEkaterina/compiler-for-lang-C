@@ -1,5 +1,7 @@
 #include "AST.h"
 
+//dot -Tps graph.gv -o graph.ps
+
 int countNode = 1;
 
 struct AST* Init_Node_AST()
@@ -74,5 +76,3 @@ void Line_Output(FILE *graph, struct AST* Node)
 {
     fprintf(graph, "\"node%d\"", Node->Node_id);
 }
-
-//dot -Tps graph.gv -o graph.ps

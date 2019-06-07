@@ -13,5 +13,7 @@ int main(char a,int v ){
      printf("a+b", a);
      b = 3 + 3;
    }
-   return ;
+
+   v = b - 1;
+   return 1;
 }
