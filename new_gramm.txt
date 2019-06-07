@@ -6,8 +6,6 @@ S -> <returnType> id (<argList>){
     <StatementList>
 }
 ----------------
-<func_call> -> id (<argList>);
-----------------
 <returnType> -> int | void
 
 <ad_Type> -> int | char
@@ -22,7 +20,7 @@ S -> <returnType> id (<argList>){
 <statementList> -> <anuthing><statementList>  | E
 ----------------
 <anuthing> -> <scanf> | <printf> | <if> | <while> | 
-                <announcement> | <arithmetic> | <return>
+                <announcement> | id <arith_or_func> | <return>
 ----------------
 <scanf> -> scanf (literal, &id);
 ----------------
@@ -49,9 +47,13 @@ S -> <returnType> id (<argList>){
 
 <mas> -> numeric | E
 <prod_mas> -> = <equal> | E
-<equal> -> numeric | literal   
+<equal> -> numeric | literal 
 ----------------
-<arithmetic> -> id = <oror>;
+<arith_or_func> -> <func_call> | <arithmetic>
+----------------
+<func_call> ->  (<argList>);
+----------------
+<arithmetic> ->  = <oror>;
 
 <oror> -> <vot> 
 

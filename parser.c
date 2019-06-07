@@ -13,9 +13,13 @@ struct AST* Init_Par(ListTokens* Tokens)
     return parser->root;
 }
 /*
-S -> <returnType> id (<argList>) { <statementList> }
+S -> <returnType> id (<argList>) { <statementList> } 
 */
 void S(Parser* parser){
+
+   /* if(strcmp(parser->knots->token, "int")  == 0 ||
+        strcmp(parser->knots->token, "void")  == 0)
+    {*/
     struct AST* StartNode = Init_Node_AST();           
     Set_Line(StartNode, "start");
 
@@ -54,26 +58,14 @@ void S(Parser* parser){
 
     StatemenList(StetementNode);
         eating("r_brace");
-}
-/*
-<func_call> -> id (<argList>);
-*/
-void Func_call(struct AST* StartNode){
-    struct AST* IdNode = Init_Node_AST();
-    Set_Line(IdNode, "id");
-    IdNode->Token = parser->knots;
-    Add_Child(IdNode, StartNode);
 
-        eating("id");
-        eating("l_paren");
+    /*if(strcmp(parser->knots->token, "int")  == 0 ||
+        strcmp(parser->knots->token, "void")  == 0)
+    {    
+        S(parser);
 
-    struct AST* ArgListNode = Init_Node_AST();
-    Set_Line(ArgListNode, "Arg_List");
-    Add_Child(ArgListNode, IdNode);
-
-    ArgList(ArgListNode);
-        eating("r_paren");
-        eating("semicolon");
+    }
+    }*/
 }
 /*
 <returnType> -> int | void 
@@ -180,7 +172,7 @@ void StatemenList(struct AST* StetementNode)
     }
 }
 /*
-<anuthing> -> <scanf> | <printf> | <if> | <while> | <announcement> | <arithmetic> | <return>
+<anuthing> -> <scanf> | <printf> | <if> | <while> | <announcement> | id <arith_or_func> | <return>
 */
 void Anuthing(struct AST* StetementNode)
 {
@@ -202,6 +194,12 @@ void Anuthing(struct AST* StetementNode)
         Announcement(StetementNode);
     }else if (strcmp(parser->knots->token, "id") == 0)
     {
+        /*struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, StetementNode);
+
+            eating("id");
+        Arith_or_func(IdNode);*/
         Arithmetic(StetementNode);
     }else if (strcmp(parser->knots->token, "return") == 0)
     {
@@ -568,7 +566,53 @@ void Equal(struct AST* AnnouncementNode)
     }
 }
 /*
-<arithmetic> -> id = <oror>;
+<arith_or_func> -> <func_call> | <arithmetic>
+*/
+/*void Arith_or_func(struct AST* IdNode){
+    if (strcmp(parser->knots->token, "l_paren") == 0)
+    {
+        struct AST* NumericNode = Init_Node_AST();
+        Set_Line(NumericNode, "numeric");
+        Add_Child(NumericNode, AnnouncementNode);
+        eating("l_paren");
+        Func_call(IdNode);
+
+    }else if (strcmp(parser->knots->token, "equally") == 0)
+    {
+        struct AST* ComparNode = Init_Node_AST();
+        Set_Line(ComparNode, parser->knots->token);
+        swapChild(IdNode, ComparNode);
+
+            eating("equally");
+        Arithmetic(IdNode);
+    }else{
+        printf("ERROR: %d:%d: EXPECTING equally OR l_paren, FIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+    }
+
+}*/
+/*
+<func_call> -> id (<argList>);
+*/
+void Func_call(struct AST* StartNode){
+    struct AST* IdNode = Init_Node_AST();
+    Set_Line(IdNode, "id");
+    IdNode->Token = parser->knots;
+    Add_Child(IdNode, StartNode);
+
+        eating("id");
+        eating("l_paren");
+
+   /* struct AST* ArgListNode = Init_Node_AST();
+    Set_Line(ArgListNode, "Arg_List");
+    Add_Child(ArgListNode, StartNode);*/
+
+    ArgList(StartNode);
+        eating("r_paren");
+        eating("semicolon");
+}
+/*
+<arithmetic> ->  = <oror>;
 */
 void Arithmetic(struct AST* StetementNode)
 {
