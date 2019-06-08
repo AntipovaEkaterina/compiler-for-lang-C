@@ -26,7 +26,7 @@ void Print_Er_Message(int row, int column, char *x);
 ListTokens* nextToken();
 ListTokens* Get_knots();
 
-void S(Parser* parser);
+void S(struct AST* StartNode);
 void Func_call(struct AST* StartNode);
 void ReturnType(struct AST* StartNode);
 void Ad_Type();

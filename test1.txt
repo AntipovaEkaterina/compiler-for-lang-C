@@ -8,6 +8,11 @@ int main(char a,int v ){
 
   int d = 1 +2;
 
+  v = b - 1;
+  return 1;
+}
+
+void maint( ){
   if ( v == 12 ){
     v = 6;
   }
@@ -15,7 +20,4 @@ int main(char a,int v ){
     printf("a+b", a);
     b = 3 + 3;
   }
-
-  v = b - 1;
-  return 1;
 }

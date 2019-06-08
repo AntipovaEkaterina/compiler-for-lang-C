@@ -8,22 +8,29 @@ struct AST* Init_Par(ListTokens* Tokens)
     parser->knots = Tokens;                 
     parser->root = NULL;
 
-    S(parser);
+    struct AST* StartNode = Init_Node_AST();           
+    Set_Line(StartNode, "start");
+
+    parser->root = StartNode;
+    //ListTokens* ReturnToken = parser->knots;
+
+    S(StartNode);
     printf("End parsing\n");
     return parser->root;
 }
 /*
 S -> <returnType> id (<argList>) { <statementList> } 
 */
-void S(Parser* parser){
+void S(struct AST* StartNode)
+{
 
-   /* if(strcmp(parser->knots->token, "int")  == 0 ||
+    if(strcmp(parser->knots->token, "int")  == 0 ||
         strcmp(parser->knots->token, "void")  == 0)
-    {*/
-    struct AST* StartNode = Init_Node_AST();           
-    Set_Line(StartNode, "start");
+    {
+    struct AST* SNode = Init_Node_AST();           
+    Set_Line(SNode, "S");
+    Add_Child(SNode, StartNode);
 
-    parser->root = StartNode;
     ListTokens* ReturnToken = parser->knots;
 
     int Type; 
@@ -33,13 +40,13 @@ void S(Parser* parser){
         Type = 2;
     }
 
-    ReturnType(StartNode);
+    ReturnType(SNode);
 
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
     IdNode->Token = parser->knots;
     IdNode->type = Type;
-    Add_Child(IdNode, StartNode);
+    Add_Child(IdNode, SNode);
         
         eating("id");
         eating("l_paren");
@@ -59,13 +66,13 @@ void S(Parser* parser){
     StatemenList(StetementNode);
         eating("r_brace");
 
-    /*if(strcmp(parser->knots->token, "int")  == 0 ||
+    if(strcmp(parser->knots->token, "int")  == 0 ||
         strcmp(parser->knots->token, "void")  == 0)
     {    
-        S(parser);
+        S(StartNode);
 
     }
-    }*/
+    }
 }
 /*
 <returnType> -> int | void 
