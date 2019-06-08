@@ -3,21 +3,13 @@ int main(char a,int v ){
 
   printf("input number:", d);
   scanf("d", & d);
-   
-  char a[5];
-
-  int d = 1 +2;
-
-  v = b - 1;
   return 1;
 }
-
 void maint( ){
-  if ( v == 12 ){
-    v = 6;
-  }
   while (b < 1){
     printf("a+b", a);
     b = 3 + 3;
   }
-}
+  main( a, v);
+  
+  }

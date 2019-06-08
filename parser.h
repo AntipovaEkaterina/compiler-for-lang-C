@@ -27,7 +27,7 @@ ListTokens* nextToken();
 ListTokens* Get_knots();
 
 void S(struct AST* StartNode);
-void Func_call(struct AST* StartNode);
+void Func_call(struct AST* StetementNode);
 void ReturnType(struct AST* StartNode);
 void Ad_Type();
 void ArgList(struct AST* ArgListNode);
@@ -52,7 +52,8 @@ void Ident(struct AST* AnnouncementNode);
 void Mas(struct AST* AnnouncementNode);
 void Prod_mas(struct AST* AnnouncementNodeIdNode);
 void Equal(struct AST* AnnouncementNode);
-//void Arith_or_func(struct AST* IdNode);
+void Tat(struct AST* StetementNode);
+void Arith_or_func(struct AST* StetementNode);
 void Arithmetic(struct AST* StetementNode);
 void Oror(struct AST* EquallyNode);
 void Vot(struct AST* EquallyNode);
