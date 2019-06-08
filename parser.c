@@ -15,7 +15,9 @@ struct AST* Init_Par(ListTokens* Tokens)
     //ListTokens* ReturnToken = parser->knots;
 
     S(StartNode);
+    printf("-----------\n");
     printf("End parsing\n");
+    printf("-----------\n");
     return parser->root;
 }
 /*
@@ -67,18 +69,23 @@ void S(struct AST* StartNode)
         StatemenList(StetementNode);
         eating("r_brace");
 
-        if(strcmp(parser->knots->token, "int")  == 0 ||
-        strcmp(parser->knots->token, "void")  == 0)
+        if(strcmp(parser->knots->token, "int")  != 0 ||
+        strcmp(parser->knots->token, "void")  != 0)
         {    
             S(StartNode);
         }
+    }else if (strcmp(parser->knots->token, "char")  == 0){
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING int OR void\nFIND %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
-
 <returnType> -> int | void 
 */
-void ReturnType(struct AST* StartNode)
+void ReturnType(struct AST* SNode)
 {
     if(strcmp(parser->knots->token, "int")  == 0)
     {
@@ -87,8 +94,11 @@ void ReturnType(struct AST* StartNode)
     {
         eating("void");
     }else{
-        printf("ERROR: %d:%d: EXPECTING int OR void, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING int OR void\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -103,8 +113,11 @@ void Ad_Type()
     {
        eating("char");
     }else{
-        printf("ERROR: %d:%d: EXPECTING int OR char, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING int OR char\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -181,7 +194,7 @@ void StatemenList(struct AST* StetementNode)
 }
 /*
 <anuthing> -> <scanf> | <printf> | <if> | <while> | <announcement> |
-                 <tat> | <return> | S
+                 <tat> | <return> 
 */
 void Anuthing(struct AST* StetementNode)
 {
@@ -208,8 +221,11 @@ void Anuthing(struct AST* StetementNode)
     {
         Return(StetementNode);
     }else{
-        printf("ERROR: %d:%d: EXPECTING scanf OR printf OR while OR if OR int OR char OR id OR return, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING: scanf/printf/while/if/int/char/id/return\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -340,8 +356,11 @@ void Else_T(struct AST* IfNode)
     {
         If(IfNode);
     }else{
-        printf("ERROR: %d:%d: EXPECTING l_paren OR if, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING l_paren OR if\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -393,8 +412,11 @@ void Expr(struct AST* Node)
         eating("id");
         Compar(ExprNode);
     }else{
-        printf("ERROR: %d:%d: EXPECTING numeric OR id, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING numeric OR id\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -442,8 +464,11 @@ void Comparison(struct AST* ExprNode)
     {
         eating("m_eq");
     }else{
-        printf("ERROR: %d:%d: EXPECTING == OR != OR < OR <= OR > OR >= , FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR:%d:%d:\nEXPECTING == OR != OR < OR <= OR > OR >=\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -458,8 +483,11 @@ void Or_And()
     {
         eating("and");
     }else{
-        printf("ERROR: %d:%d: EXPECTING or OR and, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d\n EXPECTING or OR and\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -501,22 +529,18 @@ void Ident(struct AST* AnnouncementNode)
         Set_Line(ComparNode, parser->knots->token);
         swapChild(AnnouncementNode, ComparNode);
 
-            eating("equally");
+        eating("equally");
         Oror(ComparNode);
     } else if (strcmp(parser->knots->token, "comma") == 0)
     {
-            eating("comma");
+        eating("comma");
 
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, AnnouncementNode);
 
-        /*struct AST* ComparNode = Init_Node_AST();
-        Set_Line(ComparNode, parser->knots->token);
-        swapChild(AnnouncementNode, ComparNode);*/
-
-            eating("id");
-            Ident(AnnouncementNode);
+        eating("id");
+        Ident(AnnouncementNode);
     }
 }
 /*
@@ -569,8 +593,11 @@ void Equal(struct AST* AnnouncementNode)
 
        eating("literal");
     }else{
-        printf("ERROR: %d:%d: EXPECTING numeric OR literal, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING numeric OR literal\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -605,17 +632,20 @@ void Arith_or_func(struct AST* StetementNode){
 
         Arithmetic(ArithmeticNode);
     }else{
-        printf("ERROR: %d:%d: EXPECTING equally OR l_paren, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING equally OR l_paren\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 
 }
 /*
 <func_call> -> id (id , id);
 */
-void Func_call(struct AST* IdNode ){
-
-        eating("l_paren");
+void Func_call(struct AST* IdNode )
+{
+    eating("l_paren");
 
     struct AST* ArgListNode = Init_Node_AST();
     Set_Line(ArgListNode, "Arg_List");
@@ -625,16 +655,16 @@ void Func_call(struct AST* IdNode ){
     Set_Line(Id__Node, "id");
     Add_Child(Id__Node, ArgListNode);
 
-        eating("id");
-        eating("comma");
+    eating("id");
+    eating("comma");
 
     struct AST* Id_Node = Init_Node_AST();
     Set_Line(Id_Node, "id");
     Add_Child(Id_Node, ArgListNode);
 
-        eating("id");
-        eating("r_paren");
-        eating("semicolon");
+    eating("id");
+    eating("r_paren");
+    eating("semicolon");
 }
 /*
 <arithmetic> ->  = <oror>;
@@ -707,8 +737,11 @@ void Id_or_Num(struct AST* ComparNode)
         eating("numeric");
     }else
     {
-        printf("ERROR: %d:%d: EXPECTING id OR minus OR plus, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING id OR minus OR plus\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -731,9 +764,13 @@ void Mult_Oper(struct AST* AnnouncementNode)
 
         eating("division");
     }else{
-        printf("ERROR: %d:%d: EXPECTING star OR division, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING star OR division\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
+    
 }
 /*
 <add_Oper> -> + | -
@@ -747,8 +784,11 @@ void Add_Oper(struct AST* AnnouncementNode)
     {
         eating("minus");
     }else{
-        printf("ERROR: %d:%d: EXPECTING plus OR minus, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING plus OR minus\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -765,8 +805,11 @@ void Mult_or_Add(struct AST* AnnouncementNode)
     {
         Mult_Oper(AnnouncementNode);
     }else{
-        printf("ERROR: %d:%d: EXPECTING plus OR minus OR division OR star, FIND %s\n",
+        printf("-----------------------------------------\n");
+        printf("ERROR: %d:%d:\nEXPECTING plus OR minus OR division OR star\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
     }
 }
 /*
@@ -817,11 +860,11 @@ void eating(char* x)
 {
     if (strcmp(parser->knots->token, x) == 0){
         spend();//consume
-    } else
+    } /*else
     {
         Print_Er_Message(parser->knots->row, parser->knots->column, x);
         exit(1);
-    } 
+    }*/ 
 }
 void spend()
 {
@@ -838,5 +881,7 @@ ListTokens* Get_knots()
 }
 void Print_Er_Message(int row, int column, char *x)
 {
-    printf("%d:%d - ERROR: expecting %s; find %s\n", row, column, x, parser->knots->token);
+    printf("-----------------------------------------\n");
+    printf("ERROR:%d:%d:\nFIND: %s\n", row, column, x);
+    //printf("-----------------------------------------\n");
 }
