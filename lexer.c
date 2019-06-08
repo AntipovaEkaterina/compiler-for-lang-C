@@ -140,7 +140,7 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 				continue;
 			}
 			//пробелы
-			else if (sym == ' ' || sym == '\n') {
+			else if (sym == ' ' /*|| sym == '\n'*/) {
 				if (i == 0) {
 					column++;
 					continue;
@@ -155,20 +155,20 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 				column++;
 				continue;
 
-			}else if (sym == '\r') {
+			}else if (sym == '\n') {
 				/*if (i == 0){
 					column++;
 					continue;
 				}*/
-				buf[i] = '\0';
+				//buf[i] = '\0';
 				
-				token = DefineToken(buf);
-				List = addlexeme(List, token, buf, row, column-i);
+				//token = DefineToken(buf);
+				//List = addlexeme(List, token, buf, row, column-i);
 
-				column = 1;
-				row++;
 				i = 0;
-				continue;
+					row++;
+					column = 1;
+					continue;
 			}
 			 else if (sym == '/') {
 				char tmp = fgetc(file);

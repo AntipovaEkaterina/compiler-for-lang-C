@@ -1,6 +1,5 @@
-int main(char a,int v ){ 
-   //int d; 
-
+int main(char a,int v ){
+  //int d;
   printf("input number:", d);
   scanf("d", & d);
   return 1;
@@ -12,4 +11,4 @@ void maint( ){
   }
   main( a, v);
   
-  }
+}
