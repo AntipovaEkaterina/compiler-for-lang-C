@@ -74,8 +74,7 @@ void S(struct AST* StartNode)
         {    
             S(StartNode);
         }
-    }else if (strcmp(parser->knots->token, "int")  != 0 ||
-        strcmp(parser->knots->token, "void")  != 0){
+    }else if (strcmp(parser->knots->token, "char")  == 0){
         printf("-----------------------------------------\n");
         printf("ERROR:%d:%d:\nEXPECTING int OR void\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
@@ -131,7 +130,15 @@ void ArgList(struct AST* ArgListNode)
     {
         Head_Arg_List(ArgListNode);
         Tail_Arg_List(ArgListNode);
-    }
+    }else if (strcmp(parser->knots->token, "char")  != 0 ||
+            strcmp(parser->knots->token, "int")  != 0)
+        {
+            printf("-----------------------------------------\n");
+            printf("ERROR:%d:%d:\nEXPECTING int OR void\nFIND %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            printf("-----------------------------------------\n");
+            exit(1);
+        }
 }
 /*
 <head_Arg_List> -> <arg>
