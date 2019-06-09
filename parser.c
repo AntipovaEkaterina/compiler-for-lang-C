@@ -74,7 +74,8 @@ void S(struct AST* StartNode)
         {    
             S(StartNode);
         }
-    }else if (strcmp(parser->knots->token, "char")  == 0){
+    }else if (strcmp(parser->knots->token, "int")  != 0 ||
+        strcmp(parser->knots->token, "void")  != 0){
         printf("-----------------------------------------\n");
         printf("ERROR:%d:%d:\nEXPECTING int OR void\nFIND %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);

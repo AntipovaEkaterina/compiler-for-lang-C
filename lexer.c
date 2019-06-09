@@ -156,14 +156,6 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 				continue;
 
 			}else if (sym == '\n') {
-				/*if (i == 0){
-					column++;
-					continue;
-				}*/
-				//buf[i] = '\0';
-				
-				//token = DefineToken(buf);
-				//List = addlexeme(List, token, buf, row, column-i);
 
 				i = 0;
 					row++;
@@ -185,7 +177,8 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 					ungetc(tmp, file);
 				}
 			}
-			else if (sym == ',' || sym == ';' || sym ==  '+' || sym == '-'|| 								sym == '*' || sym == '%' || sym ==  '(' || sym == ')'|| 
+			else if (sym == ',' || sym == ';' || sym ==  '+' || sym == '-'|| 
+					sym == '*' || sym == '%' || sym ==  '(' || sym == ')'|| 
 					sym == '[' || sym == ']' || sym == '{' || sym == '}' ) {
 				
 				if (i != 0) {

@@ -2,9 +2,7 @@
 G({}, {}, P, S)
 ----------------
 P:
-S -> <returnType> id (<argList>){
-    <StatementList>
-}
+S -> <returnType> id (<argList>){ <StatementList> } S | E
 ----------------
 <returnType> -> int | void
 
@@ -20,7 +18,7 @@ S -> <returnType> id (<argList>){
 <statementList> -> <anuthing><statementList>  | E
 ----------------
 <anuthing> -> <scanf> | <printf> | <if> | <while> | 
-                <announcement> | id <arith_or_func> | <return>
+                <announcement> | <tat> | <return>
 ----------------
 <scanf> -> scanf (literal, &id);
 ----------------
@@ -49,9 +47,11 @@ S -> <returnType> id (<argList>){
 <prod_mas> -> = <equal> | E
 <equal> -> numeric | literal 
 ----------------
+<tat> -> id <arith_or_func>
+----------------
 <arith_or_func> -> <func_call> | <arithmetic>
 ----------------
-<func_call> ->  (<argList>);
+<func_call> ->  (id, id);
 ----------------
 <arithmetic> ->  = <oror>;
 

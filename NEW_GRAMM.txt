@@ -1,4 +1,4 @@
-S -> RETURNTYPE id l_paren ARGLIST r_paren l_brace STATEMENTLIST r_brace.
+S ->  l_paren ARGLIST r_paren l_brace STATEMENTLIST r_brace S | .
 
 RETURNTYPE -> int 
             | void .
@@ -19,7 +19,7 @@ ARG -> AD_TYPE id .
 STATEMENTLIST -> ANUTHING STATEMENTLIST  | .
 
 ANUTHING -> SCANF | PRINTF | IF | WHILE |
-            ANNOUNCEMENT | id ARITH_OR_FUNC | RETURN .
+            AN_S | TAT | RETURN .
 
 SCANF -> scanf l_paren literal comma ampersand id r_paren semicolon .
 
@@ -43,7 +43,11 @@ COMPARISON -> d_equally | not_equal | less | more | l_eq | m_eq .
 
 OR_AND -> or | and .
 
-ANNOUNCEMENT -> AD_TYPE id IDENT semicolon .
+AN_S -> RETURNTYPE id ANNOUN_OR_S .
+
+ANNOUN_OR_S -> ANNOUNCEMENT | S .
+
+ANNOUNCEMENT ->  IDENT semicolon .
 
 IDENT -> l_square MAS r_square PROD_MAS | equally OROR | comma id IDENT | .
 
@@ -53,9 +57,11 @@ PROD_MAS -> equally EQUAL | .
 
 EQUAL -> numeric | literal .
 
+TAT -> id ARITH_OR_FUNC .
+
 ARITH_OR_FUNC ->  FUNC_CALL | ARITHMETIC .
 
-FUNC_CALL ->  l_paren ARGLIST r_paren semicolon .
+FUNC_CALL ->  l_paren id comma id r_paren semicolon .
 
 ARITHMETIC ->  equally OROR semicolon .
 
