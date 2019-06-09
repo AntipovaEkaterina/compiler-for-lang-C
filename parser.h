@@ -22,6 +22,7 @@ struct AST* Init_Par(ListTokens* Tokens);
 void eating(char* x);
 void spend();
 void Print_Er_Message(int row, int column, char *x);
+void print();
 
 ListTokens* nextToken();
 ListTokens* Get_knots();
