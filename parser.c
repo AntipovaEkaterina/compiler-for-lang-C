@@ -902,7 +902,10 @@ void Top(struct AST* EquallyNode)
 
         Mult_or_Add(EquallyNode);
         Id_or_Num(ComparNode);
-        Top(EquallyNode);
+        //Top(EquallyNode);///////////////////////////////////////////////
+        ///////////////////////////////////////////////
+        //////////////////////////////////////////////////////
+        ////////////////////////////////////////////////
     }
 }
 /*
@@ -942,10 +945,10 @@ void Id_or_Num(struct AST* ComparNode)
             strcmp(parser->knots->token, "numeric") != 0||
             strcmp(parser->knots->token, "id") != 0)
         {
-            printf("-----------------------------------------\n");
+            print();
             printf("ERROR: %d:%d:\nEXPECTING: id OR +numeric OR numeric OR -numeric\nFIND: %s\n",
             parser->knots->row, parser->knots->column, parser->knots->token);
-            printf("-----------------------------------------\n");
+            print();
             exit(1);
         }
     }
@@ -970,10 +973,10 @@ void Mult_Oper(struct AST* AnnouncementNode)
 
         eating("division");
     }else{
-        printf("-----------------------------------------\n");
+        print();
         printf("ERROR: %d:%d:\nEXPECTING: star OR division\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
+        print();
         exit(1);
     }
     
@@ -990,10 +993,10 @@ void Add_Oper(struct AST* AnnouncementNode)
     {
         eating("minus");
     }else{
-        printf("-----------------------------------------\n");
+        print();
         printf("ERROR: %d:%d:\nEXPECTING: plus OR minus\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
+        print();
         exit(1);
     }
 }
@@ -1010,19 +1013,17 @@ void Mult_or_Add(struct AST* AnnouncementNode)
                 strcmp(parser->knots->token, "star") == 0)
     {
         Mult_Oper(AnnouncementNode);
-    }else{
-        if (strcmp(parser->knots->token, "division") != 0 ||
+    }else if (strcmp(parser->knots->token, "division") != 0 ||
             strcmp(parser->knots->token, "star") != 0 ||
             strcmp(parser->knots->token, "plus") != 0 ||
             strcmp(parser->knots->token, "minus") != 0)
         {
-            printf("-----------------------------------------\n");
+            print();
             printf("ERROR: %d:%d:\nEXPECTING: + OR - OR / OR *\nFIND: %s\n",
             parser->knots->row, parser->knots->column, parser->knots->token);
-            printf("-----------------------------------------\n");
+            print();
             exit(1);
         }
-    }
 }
 /*
 <return> -> return <return_Value>;
@@ -1035,6 +1036,14 @@ void Return(struct AST* StetementNode)
 
         eating("return");
     Return_Value(ReturnNode);
+    if (strcmp(parser->knots->token, "semicolon") != 0)
+    {
+        print();
+        printf("ERROR: %d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        printf("-----------------------------------------\n");
+        exit(1);
+    }
         eating("semicolon");
 }
 /*
@@ -1047,10 +1056,17 @@ void Return_Value(struct AST* ReturnNode)
                 strcmp(parser->knots->token, "numeric") == 0)
     {
         Neg_Sings(ReturnNode);
-
-    struct AST* NumericNode = Init_Node_AST();
-    Set_Line(NumericNode, "numeric");
-    Add_Child(NumericNode, ReturnNode);
+        if (strcmp(parser->knots->token, "numeric") != 0)
+        {
+            print();
+            printf("ERROR: %d:%d:\nEXPECTING: numeric\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            printf("-----------------------------------------\n");
+            exit(1);
+        }
+        struct AST* NumericNode = Init_Node_AST();
+        Set_Line(NumericNode, "numeric");
+        Add_Child(NumericNode, ReturnNode);
     
         eating("numeric");
     }
