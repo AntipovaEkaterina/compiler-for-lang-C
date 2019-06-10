@@ -50,6 +50,7 @@ void Comparison(struct AST* ExprNode);
 void Or_And();
 void Announcement(struct AST* StetementNode);
 void Ident(struct AST* AnnouncementNode);
+void Ident_T(struct AST* AnnouncementNode);
 void Mas(struct AST* AnnouncementNode);
 void Prod_mas(struct AST* AnnouncementNodeIdNode);
 void Equal(struct AST* AnnouncementNode);

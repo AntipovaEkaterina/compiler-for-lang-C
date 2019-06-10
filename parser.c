@@ -653,37 +653,74 @@ void Or_And()
 */
 void Announcement(struct AST* StetementNode)
 {
-    struct AST* AnnouncementNode = Init_Node_AST();
-    Set_Line(AnnouncementNode, "Announcement");
-    Add_Child(AnnouncementNode, StetementNode);
+    if (strcmp(parser->knots->token, "char")  == 0)
+    {
+        struct AST* AnnouncementNode = Init_Node_AST();
+        Set_Line(AnnouncementNode, "Announcement");
+        Add_Child(AnnouncementNode, StetementNode);
 
-    Ad_Type();
+        Ad_Type();
 
-    if (strcmp(parser->knots->token, "id")  != 0){
-        print();
-        printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
-        print();
-        exit(1);
+        if (strcmp(parser->knots->token, "id")  != 0)
+        {
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+
+        eating("id");
+
+        Ident(AnnouncementNode);
+        if (strcmp(parser->knots->token, "semicolon")  != 0)
+        {
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
+        eating("semicolon");
+    } else if (strcmp(parser->knots->token, "int")  == 0)
+    {
+        struct AST* AnnouncementNode = Init_Node_AST();
+        Set_Line(AnnouncementNode, "Announcement");
+        Add_Child(AnnouncementNode, StetementNode);
+
+        Ad_Type();
+
+        if (strcmp(parser->knots->token, "id")  != 0)
+        {
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+
+        eating("id");
+
+        Ident_T(AnnouncementNode);
+        if (strcmp(parser->knots->token, "semicolon")  != 0)
+        {
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
+        eating("semicolon");
     }
-    struct AST* IdNode = Init_Node_AST();
-    Set_Line(IdNode, "id");
-    Add_Child(IdNode, AnnouncementNode);
-
-    eating("id");
-
-    Ident(AnnouncementNode);
-    if (strcmp(parser->knots->token, "semicolon")  != 0){
-        print();
-        printf("ERROR:%d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
-        print();
-        exit(1);
-    }
-    eating("semicolon");
 }
 /*
-<ident> -> [<mas>]<prod_mas> | = <oror> | , id <ident>| E
+<ident> -> [<mas>]<prod_mas> | , id <ident>| E
 */
 void Ident(struct AST* AnnouncementNode)
 {
@@ -702,7 +739,27 @@ void Ident(struct AST* AnnouncementNode)
         }
         eating("r_square");
         Prod_mas(AnnouncementNode);
-    } else if (strcmp(parser->knots->token, "equally") == 0)
+    } else if (strcmp(parser->knots->token, "comma") == 0)
+    {
+        eating("comma");
+        if (strcmp(parser->knots->token, "id")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+
+        eating("id");
+        Ident(AnnouncementNode);
+    }
+}
+/*<ident_t> ->  = <oror> | E*/
+void Ident_T(struct AST* AnnouncementNode){
+    if (strcmp(parser->knots->token, "equally") == 0)
     {
         struct AST* ComparNode = Init_Node_AST();
         Set_Line(ComparNode, parser->knots->token);
@@ -710,7 +767,7 @@ void Ident(struct AST* AnnouncementNode)
 
         eating("equally");
         Oror(ComparNode);
-    } else if (strcmp(parser->knots->token, "comma") == 0)
+    }else if (strcmp(parser->knots->token, "comma") == 0)
     {
         eating("comma");
         if (strcmp(parser->knots->token, "id")  != 0){
