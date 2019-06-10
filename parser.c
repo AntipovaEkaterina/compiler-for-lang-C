@@ -408,11 +408,31 @@ void If(struct AST* StetementNode)
     Add_Child(IfNode, StetementNode);
 
     eating("if");
+    if (strcmp(parser->knots->token, "l_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("l_paren");
 
     Expr(IfNode);
-    
+    if (strcmp(parser->knots->token, "r_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: r_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("r_paren");
+    if (strcmp(parser->knots->token, "l_brace")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_brace\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("l_brace");
 
     struct AST* StatNode = Init_Node_AST();
@@ -420,6 +440,13 @@ void If(struct AST* StetementNode)
     Add_Child(StatNode, IfNode);
 
     StatemenList(StatNode); 
+    if (strcmp(parser->knots->token, "r_brace")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: r_brace\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("r_brace");
     Else(IfNode);
 }
@@ -474,11 +501,31 @@ void While(struct AST* StetementNode)
     Add_Child(WhileNode, StetementNode);
     
     eating("while");
+    if (strcmp(parser->knots->token, "l_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("l_paren");
 
     Expr(WhileNode);
-
+    if (strcmp(parser->knots->token, "r_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: r_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("r_paren");
+    if (strcmp(parser->knots->token, "l_brace")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_brace\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("l_brace");
 
     struct AST* StatNode = Init_Node_AST();
@@ -486,6 +533,13 @@ void While(struct AST* StetementNode)
     Add_Child(StatNode, WhileNode);
 
     StatemenList(StatNode);
+    if (strcmp(parser->knots->token, "r_brace")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: r_brace\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("r_brace");
 }
 /*
@@ -746,6 +800,13 @@ void Arith_or_func(struct AST* StetementNode){
 */
 void Func_call(struct AST* IdNode )
 {
+    if (strcmp(parser->knots->token, "l_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("l_paren");
 
     struct AST* ArgListNode = Init_Node_AST();
