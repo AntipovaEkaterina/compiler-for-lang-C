@@ -567,10 +567,10 @@ void Expr(struct AST* Node)
         eating("id");
         Compar(ExprNode);
     }else{
-        printf("-----------------------------------------\n");
-        printf("ERROR:%d:%d:\nEXPECTING:: numeric OR id\nFIND: %s\n",
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: numeric OR id\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
+        print();
         exit(1);
     }
 }
@@ -619,11 +619,11 @@ void Comparison(struct AST* ExprNode)
     {
         eating("m_eq");
     }else{
-        printf("-----------------------------------------\n");
-        printf("ERROR:%d:%d:\nEXPECTING:: == OR != OR < OR <= OR > OR >=\nFIND: %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
-        exit(1);
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: == OR != OR < OR <= OR > OR >=\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
     }
 }
 /*
@@ -639,7 +639,7 @@ void Or_And()
         eating("and");
     }else{
         printf("-----------------------------------------\n");
-        printf("ERROR: %d:%d\n EXPECTING:: or OR and\nFIND: %s\n",
+        printf("ERROR: %d:%d\n EXPECTING: or OR and\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         printf("-----------------------------------------\n");
         exit(1);
@@ -656,6 +656,13 @@ void Announcement(struct AST* StetementNode)
 
     Ad_Type();
 
+    if (strcmp(parser->knots->token, "id")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
     Add_Child(IdNode, AnnouncementNode);
@@ -663,6 +670,13 @@ void Announcement(struct AST* StetementNode)
     eating("id");
 
     Ident(AnnouncementNode);
+    if (strcmp(parser->knots->token, "semicolon")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("semicolon");
 }
 /*
@@ -676,6 +690,13 @@ void Ident(struct AST* AnnouncementNode)
         eating("l_square");
         
         Mas(AnnouncementNode);
+        if (strcmp(parser->knots->token, "r_square")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: r_square\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
         eating("r_square");
         Prod_mas(AnnouncementNode);
     } else if (strcmp(parser->knots->token, "equally") == 0)
@@ -689,6 +710,13 @@ void Ident(struct AST* AnnouncementNode)
     } else if (strcmp(parser->knots->token, "comma") == 0)
     {
         eating("comma");
+        if (strcmp(parser->knots->token, "id")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
 
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
