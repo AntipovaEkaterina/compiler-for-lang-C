@@ -328,8 +328,21 @@ void Printf(struct AST* StetementNode)
     Add_Child(PrintfNode, StetementNode);
 
     eating("printf");
+    if (strcmp(parser->knots->token, "l_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: l_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    } 
     eating("l_paren");
-
+    if (strcmp(parser->knots->token, "literal")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: Literal\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    } 
     struct AST* LiteralNode = Init_Node_AST();
     Set_Line(LiteralNode, "Literal");
     Add_Child(LiteralNode, PrintfNode);
@@ -338,8 +351,21 @@ void Printf(struct AST* StetementNode)
     eating("literal");
     
     Lit_or_id(LiteralNode);
-
+    if (strcmp(parser->knots->token, "r_paren")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: r_paren\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("r_paren");
+    if (strcmp(parser->knots->token, "semicolon")  != 0){
+        print();
+        printf("ERROR:%d:%d:\nEXPECTING: semicolon\nFIND: %s\n",
+        parser->knots->row, parser->knots->column, parser->knots->token);
+        print();
+        exit(1);
+    }
     eating("semicolon");
 }
 /*
@@ -349,8 +375,22 @@ void Lit_or_id(struct AST* LiteralNode)
 {
     if (strcmp(parser->knots->token, "comma") == 0)
     {        
+        if (strcmp(parser->knots->token, "comma")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: comma\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
         eating("comma");
 
+        if (strcmp(parser->knots->token, "id")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING:: id\nFIND:: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, LiteralNode);
