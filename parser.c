@@ -130,15 +130,18 @@ void ArgList(struct AST* ArgListNode)
     {
         Head_Arg_List(ArgListNode);
         Tail_Arg_List(ArgListNode);
-    }else if (strcmp(parser->knots->token, "char")  != 0 ||
+    }else
+    {
+        if (strcmp(parser->knots->token, "char")  != 0 ||
             strcmp(parser->knots->token, "int")  != 0)
         {
             print();
-            printf("ERROR:%d:%d:\nEXPECTING: int OR void\nFIND: %s\n",
+            printf("ERROR:%d:%d:\nEXPECTING: int OR char\nFIND: %s\n",
             parser->knots->row, parser->knots->column, parser->knots->token);
             print();
             exit(1);
         }
+    }
 }
 /*
 <head_Arg_List> -> <arg>
@@ -238,7 +241,7 @@ void Anuthing(struct AST* StetementNode)
         Return(StetementNode);
     }else{
         print();
-        printf("ERROR:%d:%d:\nEXPECTING:: scanf/printf/while/if/int/char/id/return\nFIND:: %s\n",
+        printf("ERROR:%d:%d:\nEXPECTING: scanf/printf/while/if/int/char/id/return\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         print();
         exit(1);
@@ -291,7 +294,7 @@ void Scanf(struct AST* StetementNode)
 
     if (strcmp(parser->knots->token, "id")  != 0){
         print();
-        printf("ERROR:%d:%d:\nEXPECTING:: id\nFIND:: %s\n",
+        printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         print();
         exit(1);
@@ -386,7 +389,7 @@ void Lit_or_id(struct AST* LiteralNode)
 
         if (strcmp(parser->knots->token, "id")  != 0){
             print();
-            printf("ERROR:%d:%d:\nEXPECTING:: id\nFIND:: %s\n",
+            printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
             parser->knots->row, parser->knots->column, parser->knots->token);
             print();
             exit(1);
@@ -485,7 +488,7 @@ void Else_T(struct AST* IfNode)
         If(IfNode);
     }else{
         printf("-----------------------------------------\n");
-        printf("ERROR:%d:%d:\nEXPECTING:: l_paren OR if\nFIND: %s\n",
+        printf("ERROR:%d:%d:\nEXPECTING: l_paren OR if\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         printf("-----------------------------------------\n");
         exit(1);
@@ -776,7 +779,7 @@ void Equal(struct AST* AnnouncementNode)
        eating("literal");
     }else{
         printf("-----------------------------------------\n");
-        printf("ERROR: %d:%d:\nEXPECTING:: numeric OR literal\nFIND: %s\n",
+        printf("ERROR: %d:%d:\nEXPECTING: numeric OR literal\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         printf("-----------------------------------------\n");
         exit(1);
@@ -815,7 +818,7 @@ void Arith_or_func(struct AST* StetementNode){
         Arithmetic(ArithmeticNode);
     }else{
         printf("-----------------------------------------\n");
-        printf("ERROR: %d:%d:\nEXPECTING:: equally OR l_paren\nFIND: %s\n",
+        printf("ERROR: %d:%d:\nEXPECTING: equally OR l_paren\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
         printf("-----------------------------------------\n");
         exit(1);
@@ -899,6 +902,7 @@ void Top(struct AST* EquallyNode)
 
         Mult_or_Add(EquallyNode);
         Id_or_Num(ComparNode);
+        Top(EquallyNode);
     }
 }
 /*
@@ -939,7 +943,7 @@ void Id_or_Num(struct AST* ComparNode)
             strcmp(parser->knots->token, "id") != 0)
         {
             printf("-----------------------------------------\n");
-            printf("ERROR: %d:%d:\nEXPECTING:: id OR +numeric OR numeric OR -numeric\nFIND: %s\n",
+            printf("ERROR: %d:%d:\nEXPECTING: id OR +numeric OR numeric OR -numeric\nFIND: %s\n",
             parser->knots->row, parser->knots->column, parser->knots->token);
             printf("-----------------------------------------\n");
             exit(1);
@@ -1090,7 +1094,7 @@ ListTokens* Get_knots()
 void Print_Er_Message(int row, int column, char *x)
 {
     print();
-    printf("ERROR:%d:%d:\nFIND:: %s\n", row, column, x);
+    printf("ERROR:%d:%d:\nFIND: %s\n", row, column, x);
     //printf("-----------------------------------------\n");
 }
 void print(){
