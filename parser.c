@@ -717,7 +717,6 @@ void Ident(struct AST* AnnouncementNode)
             print();
             exit(1);
         }
-
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, AnnouncementNode);
@@ -920,6 +919,13 @@ void Id_or_Num(struct AST* ComparNode)
     {
         Neg_Sings(ComparNode);
 
+        if (strcmp(parser->knots->token, "numeric")  != 0){
+            print();
+            printf("ERROR:%d:%d:\nEXPECTING: numeric\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            print();
+            exit(1);
+        }
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
         Add_Child(NumericNode, ComparNode);
@@ -927,11 +933,17 @@ void Id_or_Num(struct AST* ComparNode)
         eating("numeric");
     }else
     {
-        printf("-----------------------------------------\n");
-        printf("ERROR: %d:%d:\nEXPECTING:: id OR minus OR plus\nFIND: %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
-        exit(1);
+        if (strcmp(parser->knots->token, "minus") != 0 ||
+            strcmp(parser->knots->token, "plus") != 0 ||
+            strcmp(parser->knots->token, "numeric") != 0||
+            strcmp(parser->knots->token, "id") != 0)
+        {
+            printf("-----------------------------------------\n");
+            printf("ERROR: %d:%d:\nEXPECTING:: id OR +numeric OR numeric OR -numeric\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            printf("-----------------------------------------\n");
+            exit(1);
+        }
     }
 }
 /*
@@ -995,11 +1007,17 @@ void Mult_or_Add(struct AST* AnnouncementNode)
     {
         Mult_Oper(AnnouncementNode);
     }else{
-        printf("-----------------------------------------\n");
-        printf("ERROR: %d:%d:\nEXPECTING: plus OR minus OR division OR star\nFIND: %s\n",
-        parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
-        exit(1);
+        if (strcmp(parser->knots->token, "division") != 0 ||
+            strcmp(parser->knots->token, "star") != 0 ||
+            strcmp(parser->knots->token, "plus") != 0 ||
+            strcmp(parser->knots->token, "minus") != 0)
+        {
+            printf("-----------------------------------------\n");
+            printf("ERROR: %d:%d:\nEXPECTING: + OR - OR / OR *\nFIND: %s\n",
+            parser->knots->row, parser->knots->column, parser->knots->token);
+            printf("-----------------------------------------\n");
+            exit(1);
+        }
     }
 }
 /*
