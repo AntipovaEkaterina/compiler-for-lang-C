@@ -1,14 +1,11 @@
-int main(char a,int v ){
-  //int d;
-  printf("input number:", d);
+int main(char a,int v ){ 
+   //int d; 
+
+  printf ("input number:", d);
   scanf("d", & d);
-  return 1;
-}
-void maint( ){
-  while (b < 1){
-    printf("a+b", a);
-    b = 3 + 3;
-  }
-  main( a, v);
-  
+   
+  char a[5];
+
+  int d = 1 +2;
+  //void c;
 }

@@ -49,7 +49,9 @@ ANNOUN_OR_S -> ANNOUNCEMENT | S .
 
 ANNOUNCEMENT ->  IDENT semicolon .
 
-IDENT -> l_square MAS r_square PROD_MAS | equally OROR | comma id IDENT | .
+IDENT -> l_square MAS r_square PROD_MAS |  comma id IDENT | .
+
+IDENT_T -> equally OROR | .
 
 MAS -> numeric | .
 

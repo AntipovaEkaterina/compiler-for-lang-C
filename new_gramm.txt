@@ -41,7 +41,8 @@ S -> <returnType> id (<argList>){ <StatementList> } S | E
 ----------------
 <announcement> -> <ad_Type> id<ident> ;
 
-<ident> -> [<mas>]<prod_mas> | = <oror> | , id <ident> |E
+<ident> -> [<mas>]<prod_mas> | , id <ident> |E
+<ident_t> ->  = <oror> | E
 
 <mas> -> numeric | E
 <prod_mas> -> = <equal> | E
