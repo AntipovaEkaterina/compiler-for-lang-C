@@ -9,5 +9,7 @@
 
 void Init_semantic(struct AST *root);
 void Tree_traversal(struct Id_Table *table, struct AST *node);
+void print_table(struct AST *node);
+
 
 #endif

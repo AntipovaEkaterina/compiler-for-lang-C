@@ -49,7 +49,7 @@ void S(struct AST* StartNode)
         IdNode->Token = parser->knots;
         IdNode->type = Type;
         Add_Child(IdNode, SNode);
-        
+
         eating("id");
     
         eating("l_paren");
@@ -190,7 +190,7 @@ void Arg(struct AST* ArgListNode)
         print();
         exit(1);
     } 
-
+    IdNode->Token = parser->knots;
     eating("id");       
 }
 /*
@@ -302,7 +302,9 @@ void Scanf(struct AST* StetementNode)
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
     Add_Child(IdNode, LiteralNode);
-
+    
+    IdNode->Token = parser->knots;
+    
     eating("id");
     if (strcmp(parser->knots->token, "r_paren")  != 0){
         print();
@@ -397,6 +399,8 @@ void Lit_or_id(struct AST* LiteralNode)
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, LiteralNode);
+
+        IdNode->Token = parser->knots;
 
         eating("id"); 
     }   
@@ -567,6 +571,8 @@ void Expr(struct AST* Node)
         Set_Line(IdNode, "id");
         Add_Child(IdNode, ExprNode);
         
+        IdNode->Token = parser->knots;
+
         eating("id");
         Compar(ExprNode);
     }else{
@@ -659,6 +665,19 @@ void Announcement(struct AST* StetementNode)
         Set_Line(AnnouncementNode, "Announcement");
         Add_Child(AnnouncementNode, StetementNode);
 
+        ListTokens* ReturnToken = parser->knots;
+        int Type; 
+        if (strcmp(ReturnToken->lexeme, "int") == 0){
+            Type = 1;
+        }else if (strcmp(ReturnToken->lexeme, "void") == 0){
+            Type = 2;
+        }
+
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+        IdNode->type = Type;
+
         Ad_Type();
 
         if (strcmp(parser->knots->token, "id")  != 0)
@@ -669,10 +688,7 @@ void Announcement(struct AST* StetementNode)
             print();
             exit(1);
         }
-        struct AST* IdNode = Init_Node_AST();
-        Set_Line(IdNode, "id");
-        Add_Child(IdNode, AnnouncementNode);
-
+        IdNode->Token = parser->knots;
         eating("id");
 
         Ident(AnnouncementNode);
@@ -691,6 +707,19 @@ void Announcement(struct AST* StetementNode)
         Set_Line(AnnouncementNode, "Announcement");
         Add_Child(AnnouncementNode, StetementNode);
 
+        ListTokens* ReturnToken = parser->knots;
+
+        int Type; 
+        if (strcmp(ReturnToken->lexeme, "int") == 0){
+            Type = 1;
+        }else if (strcmp(ReturnToken->lexeme, "void") == 0){
+            Type = 2;
+        }
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+        IdNode->type = Type;
+
         Ad_Type();
 
         if (strcmp(parser->knots->token, "id")  != 0)
@@ -701,10 +730,7 @@ void Announcement(struct AST* StetementNode)
             print();
             exit(1);
         }
-        struct AST* IdNode = Init_Node_AST();
-        Set_Line(IdNode, "id");
-        Add_Child(IdNode, AnnouncementNode);
-
+       IdNode->Token = parser->knots;
         eating("id");
 
         Ident_T(AnnouncementNode);
@@ -742,6 +768,21 @@ void Ident(struct AST* AnnouncementNode)
     } else if (strcmp(parser->knots->token, "comma") == 0)
     {
         eating("comma");
+        
+    /*ListTokens* ReturnToken = parser->knots;
+
+    int Type; 
+    if (strcmp(ReturnToken->lexeme, "int") == 0){
+        Type = 1;
+    }else if (strcmp(ReturnToken->lexeme, "char") == 0){
+        Type = 3;
+    }   */  
+
+        struct AST* IdNode = Init_Node_AST();
+        Set_Line(IdNode, "id");
+        Add_Child(IdNode, AnnouncementNode);
+       // IdNode->type = Type;
+
         if (strcmp(parser->knots->token, "id")  != 0){
             print();
             printf("ERROR:%d:%d:\nEXPECTING: id\nFIND: %s\n",
@@ -749,10 +790,7 @@ void Ident(struct AST* AnnouncementNode)
             print();
             exit(1);
         }
-        struct AST* IdNode = Init_Node_AST();
-        Set_Line(IdNode, "id");
-        Add_Child(IdNode, AnnouncementNode);
-
+        IdNode->Token = parser->knots;
         eating("id");
         Ident(AnnouncementNode);
     }
@@ -780,6 +818,8 @@ void Ident_T(struct AST* AnnouncementNode){
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, AnnouncementNode);
+    //IdNode->type = Type;
+        IdNode->Token = parser->knots;
 
         eating("id");
         Ident(AnnouncementNode);
@@ -845,12 +885,23 @@ void Equal(struct AST* AnnouncementNode)
 /*
 <tat> -> id <arith_or_func>
 */
-void Tat(struct AST* StetementNode){
+void Tat(struct AST* StetementNode)
+{
+   /* ListTokens* ReturnToken = parser->knots;
+
+    int Type; 
+        if (strcmp(ReturnToken->lexeme, "int") == 0){
+            Type = 1;
+        }else if (strcmp(ReturnToken->lexeme, "void") == 0){
+            Type = 2;
+        }*/
 
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "id");
-    IdNode->Token = parser->knots;
+   // IdNode->Token = parser->knots;
     Add_Child(IdNode, StetementNode);
+    //IdNode->type = Type;
+    IdNode->Token = parser->knots;
 
     eating("id");
     Arith_or_func(StetementNode);
@@ -904,12 +955,16 @@ void Func_call(struct AST* IdNode )
     Set_Line(Id__Node, "id");
     Add_Child(Id__Node, ArgListNode);
 
+    IdNode->Token = parser->knots;
+
     eating("id");
     eating("comma");
 
     struct AST* Id_Node = Init_Node_AST();
     Set_Line(Id_Node, "id");
     Add_Child(Id_Node, ArgListNode);
+
+    IdNode->Token = parser->knots;
 
     eating("id");
     eating("r_paren");
@@ -975,6 +1030,8 @@ void Id_or_Num(struct AST* ComparNode)
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "id");
         Add_Child(IdNode, ComparNode);
+
+        IdNode->Token = parser->knots;
 
         eating("id");
     } else if (strcmp(parser->knots->token, "minus") == 0 ||

@@ -26,6 +26,7 @@ struct Id_Table *Id_Table_Init (int level)
    // int size = 8;
     struct Id_Table *Table = (struct Id_Table*) calloc (1, sizeof (struct Id_Table));
     Table->level = level;
+    hashtab_init(Table->hashtab);
     return Table;
 }
 //добавление эл-та в хэш-таблицу
