@@ -883,7 +883,7 @@ void Arith_or_func(struct AST* StetementNode){
 
 }
 /*
-<func_call> -> id (id , id);
+<func_call> ->  (id , id);
 */
 void Func_call(struct AST* IdNode )
 {

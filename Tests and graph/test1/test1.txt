@@ -7,7 +7,8 @@ int main(char a,int v ){
   char a[5];
 
   int d = 1 +2;
-
+}
+int msn(int v, int b){
   if ( v == 12 ){
     v = 6;
   }

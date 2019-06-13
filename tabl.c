@@ -1,18 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define HASHTAB_SIZE 71
-#define HASHTAB_MUL  31
-
-struct listnode
-{
-    char *key;
-    int value;
-    
-    struct listnode *next;
-};
-struct listnode *hashtab[HASHTAB_SIZE];
+#include"tabl.h"
 
 unsigned int hashtab_hash(char *key)
 {
@@ -27,11 +13,20 @@ unsigned int hashtab_hash(char *key)
 //иницализация хэш-таблицы
 void hashtab_init(struct listnode **hashtab)
 {
+   // int size = 8;
     int i;
     for (i = 0; i < HASHTAB_SIZE; i++)
     {
         hashtab[i] = NULL;
     }
+}
+
+struct Id_Table *Id_Table_Init (int level)
+{
+   // int size = 8;
+    struct Id_Table *Table = (struct Id_Table*) calloc (1, sizeof (struct Id_Table));
+    Table->level = level;
+    return Table;
 }
 //добавление эл-та в хэш-таблицу
 void hashtab_add(struct listnode **hashtab,char *key, int value)
@@ -44,6 +39,8 @@ void hashtab_add(struct listnode **hashtab,char *key, int value)
     {
         node->key = key;
         node->value = value;
+        node->size = 8;
+        node->offset = 0;
         node->next = hashtab[index];
         hashtab[index] = node;
     }
@@ -84,25 +81,4 @@ void hashtab_delete(struct listnode **hashtab,char *key)
         prev = p;
     }
 }
-int main()
-{
-    //поиск 
-    struct listnode *node;
-    hashtab_init(hashtab);
-    hashtab_add(hashtab, "Tigr", 2300);
-    hashtab_add(hashtab, "Slon", 190);
-    hashtab_add(hashtab, "Volk", 0);
-    node = hashtab_lookup(hashtab, "Volk");
-    printf("Node: %s, %d\n", node->key, node->value);
-    return 0;
-    //удаление 
-    /*hashtab_delete(hashtab, "Slon");
-    node = hashtab_lookup(hashtab, "Slon");
-    if (node != NULL) 
-    {
-        printf("Node: %s, %d\n", node->key, node->value);
-    } else {
-        printf("Key 'Slon' not found\n");
-    }
-    return 0;*/
-}
+

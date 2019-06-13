@@ -7,6 +7,7 @@
 
 #include "ListTokens.h"
 #include "ListChildren.h"
+#include "tabl.h"
 
 struct AST
 {
@@ -15,13 +16,14 @@ struct AST
     struct ListChild* ListChildren;
     int Node_id;
     int type;
+    struct Id_Table* table;
 };
 
 struct AST* Init_Node_AST(); 
 
 void Add_Child(struct AST* Node, struct AST* Parent);
 void Set_Line(struct AST* node, char *str);
-void Set_Token(struct AST* node, char *str);
+void Set_Token(struct AST *node, ListTokens *token);
 void Construc_Tree(struct AST* Node);
 void Construc_Connect(FILE *graph, struct AST* Node);
 void Create_Box(FILE *graph, struct AST* Node);
