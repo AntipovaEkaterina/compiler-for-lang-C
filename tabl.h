@@ -44,7 +44,7 @@ struct Id_Table
 unsigned int hashtab_hash(char *key);
 
 void hashtab_init(struct listnode **hashtab);
-void hashtab_add(struct listnode **hashtab,char *key, int value);
+void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, int type);
 void hashtab_delete(struct listnode **hashtab,char *key);
 
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key);

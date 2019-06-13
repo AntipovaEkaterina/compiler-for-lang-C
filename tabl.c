@@ -30,7 +30,7 @@ struct Id_Table *Id_Table_Init (int level)
     return Table;
 }
 //добавление эл-та в хэш-таблицу
-void hashtab_add(struct listnode **hashtab,char *key, int value)
+void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, int type)
 {
     struct listnode *node;
     int index = hashtab_hash(key);
@@ -42,6 +42,8 @@ void hashtab_add(struct listnode **hashtab,char *key, int value)
         node->value = value;
         node->size = 8;
         node->offset = 0;
+        node->base_type = base_type;
+        node->type = type;
         node->next = hashtab[index];
         hashtab[index] = node;
     }

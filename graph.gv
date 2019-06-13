@@ -3,13 +3,13 @@ digraph {
 	"node1"->"node2"
 	"node2"[label=S]
 	"node2"->"node3"
-	"node3"[label=id]
+	"node3"[label=func]
 	"node3"->"node4"
 	"node4"[label=Arg_List]
 	"node4"->"node5"
-	"node5"[label=id]
+	"node5"[label=var]
 	"node4"->"node6"
-	"node6"[label=id]
+	"node6"[label=var]
 	"node3"->"node7"
 	"node7"[label=Statement]
 	"node7"->"node8"
@@ -17,31 +17,31 @@ digraph {
 	"node8"->"node9"
 	"node9"[label=Literal]
 	"node9"->"node10"
-	"node10"[label=id]
+	"node10"[label=var]
 	"node7"->"node11"
 	"node11"[label=Scanf]
 	"node11"->"node12"
 	"node12"[label=Literal]
 	"node12"->"node13"
-	"node13"[label=id]
+	"node13"[label=var]
 	"node7"->"node14"
 	"node14"[label=Announcement]
 	"node14"->"node15"
-	"node15"[label=id]
+	"node15"[label=var]
 	"node1"->"node16"
 	"node16"[label=S]
 	"node16"->"node17"
-	"node17"[label=id]
+	"node17"[label=func]
 	"node17"->"node18"
 	"node18"[label=Arg_List]
 	"node18"->"node19"
-	"node19"[label=id]
+	"node19"[label=var]
 	"node18"->"node20"
-	"node20"[label=id]
+	"node20"[label=var]
 	"node17"->"node21"
 	"node21"[label=Statement]
 	"node21"->"node22"
 	"node22"[label=Announcement]
 	"node22"->"node23"
-	"node23"[label=id]
+	"node23"[label=var]
 }
