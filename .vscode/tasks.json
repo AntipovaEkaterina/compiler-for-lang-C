@@ -2,17 +2,8 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "semant",
+            "label": "build sem",
             "command": "make",
-            // "args": [
-            //     "-g",
-            //     "${file}",
-            //     "-o",
-            //     "${fileDirname}/${fileBasenameNoExtension}"
-            // ],
-            "options": {
-                "cwd": "/usr/bin"
-            },
             "problemMatcher": [
                 "$gcc"
             ],

@@ -1,26 +1,24 @@
-int main(char a,int v ){ 
-   int d; 
-
-  printf("input number:", d);
-  scanf("d", & d);
+int main(int a,int b ){
+  int c; 
+  printf("input number:", c);
+  scanf("d", & c);
+  
+  
+  
    
-  char i[5];
+  char g[5];
 
-  d = 1 +2;
+  a = 1 +2;
+  int c;
 }
-int msn(int v, int b){
-  int a;
-  if ( v == 12 ){
-    v = 6;
+int msn(int d, int g){
+  int h;
+  if ( d == 12 ){
+    g = 6;
   }
-  while (b < 1){
-    printf("a+b", a);
-    b = 3 + 3;
-    if(b < 7){
-      printf("oops");
-    }
+  while (g < 1){
+    printf("a+b", h);
+    h = 3 + 3;
   }
- // main(v,b);
-  v = b - 1;
-  return 1;
+ //main(a,b);
 }

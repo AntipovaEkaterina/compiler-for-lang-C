@@ -18,10 +18,10 @@ struct AST* Init_Node_AST()
 void Add_Child(struct AST* Node, struct AST* Parent)
 {
 	struct ListChild* reb;
-	reb = (struct ListChild*) calloc(1, sizeof(struct ListChild)); //reb=child
+	reb = (struct ListChild*) calloc(1, sizeof(struct ListChild)); 
 	reb->next = NULL;
 	reb->Node = Node;
-	struct ListChild* Par_Node = Parent->ListChildren; //pnode=Par_Node
+	struct ListChild* Par_Node = Parent->ListChildren;
 	if (Par_Node == NULL)
 	{
 		Parent-> ListChildren = reb;

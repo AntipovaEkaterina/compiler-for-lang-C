@@ -895,10 +895,10 @@ void Equal(struct AST* AnnouncementNode)
 
        eating("literal");
     }else{
-        printf("-----------------------------------------\n");
+        print();
         printf("ERROR: %d:%d:\nEXPECTING: numeric OR literal\nFIND: %s\n",
         parser->knots->row, parser->knots->column, parser->knots->token);
-        printf("-----------------------------------------\n");
+        print();
         exit(1);
     }
 }
@@ -907,20 +907,20 @@ void Equal(struct AST* AnnouncementNode)
 */
 void Tat(struct AST* StetementNode)
 {
-   /* ListTokens* ReturnToken = parser->knots;
+    ListTokens* ReturnToken = parser->knots;
 
     int Type; 
         if (strcmp(ReturnToken->lexeme, "int") == 0){
             Type = 1;
         }else if (strcmp(ReturnToken->lexeme, "void") == 0){
             Type = 2;
-        }*/
+        }
 
     struct AST* IdNode = Init_Node_AST();
   
    // IdNode->Token = parser->knots;
     Add_Child(IdNode, StetementNode);
-    //IdNode->type = Type;
+    IdNode->type = Type;
     IdNode->Token = parser->knots;
 
     eating("id");
