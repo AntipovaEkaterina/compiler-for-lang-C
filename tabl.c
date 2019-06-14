@@ -1,12 +1,12 @@
 #include"tabl.h"
 
-unsigned int hashtab_hash(char *key)
+/*unsigned*/ int hashtab_hash(char *key)
 {
     unsigned int h = 0;
     char *p;
     for (p = key; *p != '\0'; p++)
     {
-        h = h * HASHTAB_MUL + (unsigned int)*p;
+        h = h * HASHTAB_MUL + (int)*p;
     }
     return h % HASHTAB_SIZE;
 }
@@ -20,7 +20,6 @@ void hashtab_init(struct listnode **hashtab)
         hashtab[i] = NULL;
     }
 }
-
 struct Id_Table *Id_Table_Init (int level)
 {
    // int size = 8;
@@ -48,6 +47,17 @@ void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, 
         hashtab[index] = node;
     }
 }
+struct listnode *Find_in_all_table(struct Id_Table *Table, char *key)
+{
+    struct listnode **currHashTab = Table->hashtab;
+    struct listnode *node = hashtab_lookup(currHashTab, key);
+
+    if (node == NULL)
+    {
+        node = Find_in_all_table(Table->next, key);
+    }
+    return node;
+}
 //поиск эл-та
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key)
 {
@@ -68,6 +78,7 @@ void hashtab_delete(struct listnode **hashtab,char *key)
 {
     int index;
     struct listnode *p, *prev = NULL;
+
     index = hashtab_hash(key);
     for (p = hashtab[index]; p != NULL; p = p->next)
     {
@@ -78,7 +89,6 @@ void hashtab_delete(struct listnode **hashtab,char *key)
             else
                 prev->next = p->next;
             free(p);
-            
             return;
         }
         prev = p;

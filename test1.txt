@@ -1,10 +1,10 @@
-int main(char a,int v ){ 
+void pupa(char a,int v ){ 
 
   printf("input number:", d);
   scanf("d", & d);
   
-  int d;
+  char d[];
 }
-int maiyn(char e,int t ){
+int lupa(int e,int t ){
   int f;
 }

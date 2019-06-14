@@ -12,6 +12,7 @@ struct AST* Init_Node_AST()
 	ast->Node_id = countNode;
 	countNode++;
 	ast->type = 0;
+	ast->table = NULL;
 	return ast;
 }
 void Add_Child(struct AST* Node, struct AST* Parent)

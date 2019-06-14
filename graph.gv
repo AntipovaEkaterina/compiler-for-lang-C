@@ -27,7 +27,7 @@ digraph {
 	"node7"->"node14"
 	"node14"[label=Announcement]
 	"node14"->"node15"
-	"node15"[label=var]
+	"node15"[label=arr]
 	"node1"->"node16"
 	"node16"[label=S]
 	"node16"->"node17"
