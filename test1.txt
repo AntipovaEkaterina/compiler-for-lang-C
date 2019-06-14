@@ -1,10 +1,26 @@
-void pupa(char a,int v ){ 
+int main(char a,int v ){ 
+   int d; 
 
   printf("input number:", d);
   scanf("d", & d);
-  
-  char d[];
+   
+  char i[5];
+
+  d = 1 +2;
 }
-int lupa(int e,int t ){
-  int f;
+int msn(int v, int b){
+  int a;
+  if ( v == 12 ){
+    v = 6;
+  }
+  while (b < 1){
+    printf("a+b", a);
+    b = 3 + 3;
+    if(b < 7){
+      printf("oops");
+    }
+  }
+ // main(v,b);
+  v = b - 1;
+  return 1;
 }

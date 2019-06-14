@@ -25,8 +25,13 @@ struct Id_Table *Id_Table_Init (int level)
    // int size = 8;
     struct Id_Table *Table = (struct Id_Table*) calloc (1, sizeof (struct Id_Table));
     Table->level = level;
+    Table->next = NULL;
+    Table->sizeTable = 0;
     hashtab_init(Table->hashtab);
     return Table;
+}
+void Add_Size_Table(struct Id_Table *table){
+    table->sizeTable +=8;
 }
 //добавление эл-та в хэш-таблицу
 void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, int type)
@@ -52,7 +57,7 @@ struct listnode *Find_in_all_table(struct Id_Table *Table, char *key)
     struct listnode **currHashTab = Table->hashtab;
     struct listnode *node = hashtab_lookup(currHashTab, key);
 
-    if (node == NULL)
+    if(node == NULL && Table->next != NULL)
     {
         node = Find_in_all_table(Table->next, key);
     }
@@ -94,4 +99,8 @@ void hashtab_delete(struct listnode **hashtab,char *key)
         prev = p;
     }
 }
-
+void hashtab_setOffset(struct listnode **hashtab, char *key, int offset)
+{
+    struct listnode *node = hashtab_lookup(hashtab, key);
+    node->offset = offset;
+}

@@ -1,5 +1,5 @@
 all:
-	gcc -Wall -g main.c lexer.c parser.c ListChildren.c AST.c ListTokens.c tabl.c cemantics.c -o main
+	gcc -Wall -g main.c lexer.c parser.c ListChildren.c AST.c ListTokens.c tabl.c semantics.c -o main
 
 .PHONY: g 
 g:

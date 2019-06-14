@@ -11,7 +11,7 @@
 
 enum Base_Type
 {
-    function = 1,
+    function ,
     array,
     variable
 };
@@ -41,6 +41,7 @@ struct Id_Table
     struct listnode *hashtab[HASHTAB_SIZE];
     struct Id_Table *next;
     int level;
+    int sizeTable;
 };
 
 int hashtab_hash(char *key);
@@ -48,6 +49,7 @@ int hashtab_hash(char *key);
 void hashtab_init(struct listnode **hashtab);
 void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, int type);
 void hashtab_delete(struct listnode **hashtab,char *key);
+void hashtab_setOffset(struct listnode **hashtab, char *key, int offset);
 
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key);
 struct Id_Table *Id_Table_Init (int level);
