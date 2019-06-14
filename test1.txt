@@ -2,14 +2,11 @@ int main(int a,int b ){
   int c; 
   printf("input number:", c);
   scanf("d", & c);
-  
-  
-  
    
   char g[5];
 
   a = 1 +2;
-  int c;
+  //int c;
 }
 int msn(int d, int g){
   int h;
@@ -20,5 +17,5 @@ int msn(int d, int g){
     printf("a+b", h);
     h = 3 + 3;
   }
- //main(a,b);
+//main(a,b);
 }

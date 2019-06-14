@@ -2,6 +2,7 @@
 #include "parser.h"
 #include "semantics.h"
 #include "tabl.h"
+#include "Code_Gen.h"
 
 int main(int argc, char const *argv[]) 
 {
@@ -11,6 +12,8 @@ int main(int argc, char const *argv[])
     Construc_Tree(root);
     Init_semantic(root);
     print_table(root);
+    code_gen(root);
+
 
     return 0;
 }

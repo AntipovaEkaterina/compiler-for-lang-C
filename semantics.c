@@ -26,12 +26,12 @@ void Tree_traversal(struct Id_Table *table, struct AST *node)
 					base_type = 2;
 				}
 				hashtab_add(currTable->hashtab, name, value, base_type, node->type);
-				//Add_Size_Table(currTable);
-			   // hashtab_setOffset(currTable->hashtab, name, table->sizeTable);
+				Add_Size_Table(currTable);
+			    hashtab_setOffset(currTable->hashtab, name, table->sizeTable);
 			} else {
 				Redecl_Message(node);
 			}
-		} else {
+	/**/	} else {
 			char* name = node->Token->lexeme;
 			struct listnode *Found_Node = Find_in_all_table(currTable, name);
 			if (Found_Node == NULL)
@@ -72,21 +72,18 @@ void Tree_traversal(struct Id_Table *table, struct AST *node)
 		//вызов
 	}else if(strcmp(node->Line, "Function") == 0){
 		char* name = node->Token->lexeme;
-		struct listnode *Found_Node = Find_in_all_table(currTable, name);//hashtab_lookup(currTable->hashtab, name);
+		struct listnode *Found_Node = Find_in_all_table(currTable, name);
 
 		if (Found_Node != NULL)
 		{
-
 			/*//int value = hashtab_hash(name);
 
 			//hashtab_add(currTable->hashtab, name, value, 3, 0);
 			//int lvl = currTable->level + 1;
 			//node->table = Id_Table_Init(lvl);
-
 			node->table->next = currTable;
-			currTable = node->table;
-			printf(" 2%s\n", name); */
-			
+			currTable = node->table;*/
+			//printf(" 2%s\n", name); 	
 		}else{
 			Redecl_Message(node);
 		}
@@ -117,10 +114,9 @@ void Not_Declar_Message(struct AST *node)
 
 void print_table(struct AST *node)
 {
-
 	if (node->table != NULL)
 	{
-		printf("    level   =   %d\n", node->table->level);
+		printf("\tlevel\t=\t%d\n", node->table->level);
 		for (int i = 0; i < HASHTAB_SIZE; i++)
 		{
 			struct listnode *hash_node = node->table->hashtab[i] ;
@@ -132,6 +128,7 @@ void print_table(struct AST *node)
 				printf("offset = %d\n", hash_node->offset);
 			}
 		}
+		printf("SIZE TABLE: %d\n", node->table->sizeTable);
 	}
 	struct ListChild* Children = node->ListChildren;
 	while (Children != NULL)

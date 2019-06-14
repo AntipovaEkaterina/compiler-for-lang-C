@@ -9,7 +9,7 @@
 #define HASHTAB_SIZE 71
 #define HASHTAB_MUL  31
 
-enum Base_Type
+/*enum Base_Type
 {
     function ,
     array,
@@ -21,14 +21,16 @@ enum Type
     Void,
     Char,
     Int 
-};
+};*/
 //int size = 8;
 struct listnode
 {
     char *key;//наименование id 
     int value; //хэш-ключ
-    enum Base_Type base_type;
-    enum Type type;
+    //enum Base_Type base_type;
+    int base_type;//1var 2arr 3func
+    //enum Type type;
+    int type;//1int 2char
     int offset; //смещение в стеке
     int size; 
     int count_el; //кол-во эл-в. для массива
@@ -50,6 +52,7 @@ void hashtab_init(struct listnode **hashtab);
 void hashtab_add(struct listnode **hashtab,char *key, int value, int base_type, int type);
 void hashtab_delete(struct listnode **hashtab,char *key);
 void hashtab_setOffset(struct listnode **hashtab, char *key, int offset);
+void addSizeTable(struct Id_Table *table, char *key);
 
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key);
 struct Id_Table *Id_Table_Init (int level);

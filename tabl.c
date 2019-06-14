@@ -2,7 +2,7 @@
 
 /*unsigned*/ int hashtab_hash(char *key)
 {
-    unsigned int h = 0;
+    int h = 0;
     char *p;
     for (p = key; *p != '\0'; p++)
     {
@@ -13,7 +13,6 @@
 //иницализация хэш-таблицы
 void hashtab_init(struct listnode **hashtab)
 {
-   // int size = 8;
     int i;
     for (i = 0; i < HASHTAB_SIZE; i++)
     {
@@ -22,7 +21,6 @@ void hashtab_init(struct listnode **hashtab)
 }
 struct Id_Table *Id_Table_Init (int level)
 {
-   // int size = 8;
     struct Id_Table *Table = (struct Id_Table*) calloc (1, sizeof (struct Id_Table));
     Table->level = level;
     Table->next = NULL;
@@ -30,7 +28,8 @@ struct Id_Table *Id_Table_Init (int level)
     hashtab_init(Table->hashtab);
     return Table;
 }
-void Add_Size_Table(struct Id_Table *table){
+void Add_Size_Table(struct Id_Table *table)
+{
     table->sizeTable +=8;
 }
 //добавление эл-та в хэш-таблицу

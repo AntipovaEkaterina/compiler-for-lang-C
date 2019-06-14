@@ -34,6 +34,15 @@ void Add_Child(struct AST* Node, struct AST* Parent)
 		Par_Node->next = reb;
 	}
 }
+void Set_Line(struct AST *node, char* str)
+{
+	node->Line = (char*) calloc(strlen(str), sizeof(char*));
+	strcpy(node->Line, str);
+}
+void Set_Token(struct AST *node, ListTokens *token)
+{
+	node->Token = token;
+}
 struct ListChild* searchLastChild(struct AST* node)
 {
 	struct ListChild* listChild = node->ListChildren;
@@ -60,18 +69,8 @@ void swapChild(struct AST *parent, struct AST *newChild)
 void addNewChild(struct AST *parent, struct AST *newChild)
 {
 	struct ListChild *listChild = searchLastChild(parent);
-	listChild->Node = newChild;
-	
+	listChild->Node = newChild;	
 }
-void Set_Line(struct AST *node, char* str )
-{
-	node->Line = (char*) calloc(strlen(str), sizeof(char*));
-	strcpy(node->Line, str);
-}
-void Set_Token(struct AST *node, ListTokens *token)
-{
-	node->Token = token;
- }
 void Construc_Tree(struct AST* Node)
 {
 	FILE *graph;
