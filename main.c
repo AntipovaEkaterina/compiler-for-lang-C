@@ -12,7 +12,9 @@ int main(int argc, char const *argv[])
     Construc_Tree(root);
     Init_semantic(root);
     print_table(root);
+    //printf("234 \n");
     code_gen(root);
+   // printf("!!!!! \n");
 
 
     return 0;

@@ -11,5 +11,5 @@ r:
 	
 .PHONY: asm
 asm:
-	nasm -felf64 main.asm -o main.o	
-	gcc -no-pie main.o -o main
+	nasm -felf64 main.asm -o mainq.o	
+	gcc -no-pie mainq.o -o mainq

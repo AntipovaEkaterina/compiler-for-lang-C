@@ -698,7 +698,7 @@ void Announcement(struct AST* StetementNode)
 
         struct AST* IdNode = Init_Node_AST();
         //Set_Line(IdNode, "id");
-         Set_Token(IdNode,  parser->knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, AnnouncementNode);
         IdNode->type = Type;
 

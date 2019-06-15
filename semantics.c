@@ -29,6 +29,7 @@ void Tree_traversal(struct Id_Table *table, struct AST *node)
 				Add_Size_Table(currTable);
 			    hashtab_setOffset(currTable->hashtab, name, currTable->sizeTable);
 			} else {
+
 				Redecl_Message(node);
 			}
 		} else {
@@ -129,6 +130,7 @@ void print_table(struct AST *node)
 			}
 		}
 		printf("SIZE TABLE: %d\n", node->table->sizeTable);
+		
 	}
 	struct ListChild* Children = node->ListChildren;
 	while (Children != NULL)
@@ -136,4 +138,5 @@ void print_table(struct AST *node)
 		print_table(Children->Node);
 		Children = Children->next;
 	}
+	//printf("!!!!! \n");
 }

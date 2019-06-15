@@ -12,7 +12,6 @@ void code_gen(struct AST *root)
 		regValAri[i] = 0;
 	}
 	countJmp = 5;
-
 	fprintf(asmb, "section .text");
 	fprintf(asmb, "\tglobal\tmain\n");
 	fprintf(asmb, "main:\n");
@@ -22,6 +21,7 @@ void code_gen(struct AST *root)
 	int sizeTab = root->table->sizeTable * 2;
 	char *size = (char*) calloc(getSizeNumber(sizeTab), sizeof(char));
 	sprintf(size, "%d", sizeTab);
+	
 	Sub("rsp", size);
 
 	treversal(root);
@@ -39,11 +39,10 @@ void code_gen(struct AST *root)
 	fprintf(asmb, "\textern\tscanf\n\n");
 
 	fprintf(asmb, "section .data\n");
-	fprintf(asmb, "\tformString db \"%s\", 10, 0\n", "\%s");
-	fprintf(asmb, "\tformInt db \"%s\", 10, 0\n", "\%d");
-	fprintf(asmb, "\tformInInt db \"%s\", 0\n", "\%d");
+	fprintf(asmb, "\tformString db \"%s\", 10, 0\n", "%%s");
+	fprintf(asmb, "\tformInt db \"%s\", 10, 0\n", "%%d");
+	fprintf(asmb, "\tformInInt db \"%s\", 0\n", "%%d");
 	fprintf(asmb, "\tbufInInt dq 0\n");
-
 
 
     fclose(asmb);
@@ -55,6 +54,7 @@ void treversal(struct AST *node)
     {
         currTable = node->table;
     }
+	
     if (strcmp(node->Line, "equally") == 0 ) 
     {
 		struct ListChild *child1 = node->ListChildren;
@@ -76,20 +76,23 @@ void treversal(struct AST *node)
 	
 		freeRegValAri(str2);
 		free(str2);
+		
 	} else if (strcmp(node->Line, "if") == 0) {
 		currTable = node->table;
 		createIf(node);
 		currTable = table;
-
+//printf("!!!!! \n");
 		return;
 	} else if (strcmp(node->Line, "while") == 0) {
 		currTable = node->table;
 		createWhile(node);
 		currTable = table;
+		//printf("!!!!! \n");
 	} else if (strcmp(node->Line, "printf") == 0) {
 		createPrint(node->ListChildren->Node);
+		//printf("!!!!! \n");
 	}else if (strcmp(node->Line, "scanf") == 0) {
-
+		//printf("!!!!! \n");
 	}
     struct ListChild* Children = node->ListChildren;
 	while (Children != NULL)
@@ -103,6 +106,7 @@ void createIf(struct AST *node)
 	struct AST *exprNode = node->ListChildren->Node;
 	struct AST *thenNode = node->ListChildren->next->Node;
 	struct AST *lastChild = NULL;
+	
 	if(node->ListChildren->next->next != NULL)
 		lastChild = node->ListChildren->next->next->Node;
 
@@ -110,7 +114,7 @@ void createIf(struct AST *node)
 	countJmp += 2;
 
 	Loop(currJmp);
-
+//printf("!234! \n");
 	char* jmp = createExpr(exprNode);
 
 	Jmp(jmp, currJmp + 100);
@@ -125,7 +129,7 @@ void createIf(struct AST *node)
 	}
 	Loop(currJmp + 100);
 
-	if (lastChild != NULL && strcmp(lastChild->Line, "then") == 0)
+	if (lastChild != NULL && strcmp(lastChild->Line, "else") == 0)
 	{
 		// stmtListNode(lastChild->getLastChild());
 		treversal(lastChild);
@@ -148,7 +152,7 @@ void createPrint(struct AST *node)
 	{
 		char *lexeme = node->Token->lexeme;
 
-		if (strcmp(node->Token->token, "id") == 0) 
+		if (strcmp(node->Token->token, "var") == 0) 
 		{
 			struct listnode *hashtab = Find_in_all_table(currTable, lexeme);
 			if (hashtab->type == 1) {
@@ -213,7 +217,7 @@ char* rightPart(struct AST *node)
 		char *reg = regAriNumToStr(getRegForAri());
 		Mov(reg, node->Token->lexeme);
 		return reg;
-	}else if(strcmp(node->Line, "id") == 0)
+	}else if(strcmp(node->Line, "var") == 0)
 	///////////////////////////////////
 	//////////////////////////////что у меня будет вместо id 
 ////////////////////////////////////
@@ -473,8 +477,10 @@ char* getOffset(struct AST *node)
 } 
 
 char* createExpr(struct AST *node){
+	
 	struct AST *condNode = node->ListChildren->Node;
 	char* str1 = rightPart(condNode->ListChildren->Node);
+	//printf("!234! \n");
 	char* str2 = NULL;
 	if(condNode->ListChildren->next != NULL)
 		str2 = rightPart(condNode->ListChildren->next->Node);

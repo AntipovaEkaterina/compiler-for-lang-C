@@ -6,16 +6,11 @@ int main(int a,int b ){
   char g [5];
 
   a = 1 +2;
-  //int c;
 }
 int msn(int d, int g){
   int h;
-  if ( d == 12 ){
-    g = 6;
-  }
-  while (g < 1){
-    printf("a+b", h);
+  while (g < 10){
     h = 3 + 3;
+    printf("h=%d", h);
   }
-//main(a,h);
 }
