@@ -180,7 +180,7 @@ void Arg(struct AST* ArgListNode)
 
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "var");
-    Set_Token(IdNode, Get_knots);
+    Set_Token(IdNode,  parser->knots);
     Add_Child(IdNode, ArgListNode);
     IdNode->type = Type;
 
@@ -286,7 +286,7 @@ void Scanf(struct AST* StetementNode)
 
     struct AST* LiteralNode = Init_Node_AST();
     Set_Line(LiteralNode, "Literal");
-    Set_Token(LiteralNode, Get_knots);
+    Set_Token(LiteralNode,  parser->knots);
     Add_Child(LiteralNode, ScanfNode);
     LiteralNode->Token = parser->knots; 
 
@@ -319,7 +319,7 @@ void Scanf(struct AST* StetementNode)
     }
     struct AST* IdNode = Init_Node_AST();
     Set_Line(IdNode, "var");
-    Set_Token(IdNode, Get_knots);
+    Set_Token(IdNode,  parser->knots);
     Add_Child(IdNode, LiteralNode);
     
     IdNode->Token = parser->knots;
@@ -369,7 +369,7 @@ void Printf(struct AST* StetementNode)
     } 
     struct AST* LiteralNode = Init_Node_AST();
     Set_Line(LiteralNode, "Literal");
-    Set_Token(LiteralNode, Get_knots);
+    Set_Token(LiteralNode,  parser->knots);
     Add_Child(LiteralNode, PrintfNode);
     LiteralNode->Token = parser->knots;
 
@@ -418,7 +418,7 @@ void Lit_or_id(struct AST* LiteralNode)
         }
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, LiteralNode);
 
         IdNode->Token = parser->knots;
@@ -583,7 +583,7 @@ void Expr(struct AST* Node)
     {
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Set_Token(NumericNode, Get_knots);
+        Set_Token(NumericNode,  parser->knots);
         Add_Child(NumericNode, ExprNode);
 
         eating("numeric");
@@ -591,7 +591,7 @@ void Expr(struct AST* Node)
     {
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, ExprNode);
         
         IdNode->Token = parser->knots;
@@ -698,6 +698,7 @@ void Announcement(struct AST* StetementNode)
 
         struct AST* IdNode = Init_Node_AST();
         //Set_Line(IdNode, "id");
+         Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, AnnouncementNode);
         IdNode->type = Type;
 
@@ -740,7 +741,7 @@ void Announcement(struct AST* StetementNode)
         }
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, AnnouncementNode);
         IdNode->type = Type;
 
@@ -778,7 +779,7 @@ void Ident(struct AST* AnnouncementNode)
     {
         struct AST* getLastNode = getLastChilde(AnnouncementNode);;    
         Set_Line(getLastNode, "arr");
-        Set_Token(getLastNode, Get_knots);
+       // Set_Token(getLastNode,  parser->knots);
         //Set_Line(IdNode, "arv");
         eating("l_square");
         
@@ -809,7 +810,7 @@ void Ident(struct AST* AnnouncementNode)
 
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, AnnouncementNode);
        // IdNode->type = Type;
 
@@ -847,7 +848,7 @@ void Ident_T(struct AST* AnnouncementNode){
         }
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, AnnouncementNode);
     //IdNode->type = Type;
         IdNode->Token = parser->knots;
@@ -865,7 +866,7 @@ void Mas(struct AST* AnnouncementNode)
     {
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Set_Token(NumericNode, Get_knots);
+        Set_Token(NumericNode,  parser->knots);
         Add_Child(NumericNode, AnnouncementNode);
 
         eating("numeric");
@@ -895,7 +896,7 @@ void Equal(struct AST* AnnouncementNode)
     {
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
-        Set_Token(NumericNode, Get_knots);
+        Set_Token(NumericNode,  parser->knots);
         Add_Child(NumericNode, AnnouncementNode);
 
         eating("numeric");
@@ -903,7 +904,7 @@ void Equal(struct AST* AnnouncementNode)
     {
         struct AST* LiteralNode = Init_Node_AST();
         Set_Line(LiteralNode, "Literal");
-        Set_Token(LiteralNode, Get_knots);
+        Set_Token(LiteralNode,  parser->knots);
         Add_Child(LiteralNode, AnnouncementNode);
         LiteralNode->Token = parser->knots;
 
@@ -959,7 +960,7 @@ void Arith_or_func(struct AST* StetementNode){
     {
         struct AST* getLastNode = getLastChilde(StetementNode);;    
         Set_Line(getLastNode, "var");
-        Set_Token(getLastNode, Get_knots);
+       // Set_Token(getLastNode, Get_knots);
 
         struct AST* ArithmeticNode = Init_Node_AST();
         Set_Line(ArithmeticNode, "Arithmetic");
@@ -1001,7 +1002,7 @@ void Func_call(struct AST* IdNode )
     
     struct AST* Id__Node = Init_Node_AST();
     Set_Line(Id__Node, "var");
-    Set_Token(IdNode, Get_knots);
+    Set_Token(IdNode,  parser->knots);
     Add_Child(Id__Node, ArgListNode);
 
     IdNode->Token = parser->knots;
@@ -1027,7 +1028,7 @@ void Func_call(struct AST* IdNode )
 
     struct AST* Id_Node = Init_Node_AST();
     Set_Line(Id_Node, "var");
-    Set_Token(IdNode, Get_knots);
+    Set_Token(IdNode,  parser->knots);
     Add_Child(Id_Node, ArgListNode);
 
     IdNode->Token = parser->knots;
@@ -1109,7 +1110,7 @@ void Id_or_Num(struct AST* ComparNode)
     {
         struct AST* IdNode = Init_Node_AST();
         Set_Line(IdNode, "var");
-        Set_Token(IdNode, Get_knots);
+        Set_Token(IdNode,  parser->knots);
         Add_Child(IdNode, ComparNode);
 
         IdNode->Token = parser->knots;
@@ -1131,7 +1132,7 @@ void Id_or_Num(struct AST* ComparNode)
         struct AST* NumericNode = Init_Node_AST();
         Set_Line(NumericNode, "numeric");
         Set_Token(NumericNode, parser->knots);
-        //Set_Token(IdNode, Get_knots);
+        //Set_Token(IdNode,  parser->knots);
         Add_Child(NumericNode, ComparNode);
 
         eating("numeric");
@@ -1300,7 +1301,7 @@ ListTokens* nextToken()
     parser->count++;
     return parser->knots->next;
 }
-ListTokens* Get_knots()
+ListTokens*  Get_knots()
 {
     return parser->knots;
 }

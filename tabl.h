@@ -9,20 +9,6 @@
 #define HASHTAB_SIZE 71
 #define HASHTAB_MUL  31
 
-/*enum Base_Type
-{
-    function ,
-    array,
-    variable
-};
-
-enum Type
-{
-    Void,
-    Char,
-    Int 
-};*/
-//int size = 8;
 struct listnode
 {
     char *key;//наименование id 
@@ -57,5 +43,7 @@ void addSizeTable(struct Id_Table *table, char *key);
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key);
 struct Id_Table *Id_Table_Init (int level);
 struct listnode *Find_in_all_table(struct Id_Table *Table, char *key);
+
+void Add_Size_Table(struct Id_Table *table);
 
 #endif

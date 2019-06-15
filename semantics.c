@@ -27,11 +27,11 @@ void Tree_traversal(struct Id_Table *table, struct AST *node)
 				}
 				hashtab_add(currTable->hashtab, name, value, base_type, node->type);
 				Add_Size_Table(currTable);
-			    hashtab_setOffset(currTable->hashtab, name, table->sizeTable);
+			    hashtab_setOffset(currTable->hashtab, name, currTable->sizeTable);
 			} else {
 				Redecl_Message(node);
 			}
-	/**/	} else {
+		} else {
 			char* name = node->Token->lexeme;
 			struct listnode *Found_Node = Find_in_all_table(currTable, name);
 			if (Found_Node == NULL)
