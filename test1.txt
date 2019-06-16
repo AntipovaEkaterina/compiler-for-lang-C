@@ -1,16 +1,19 @@
 int main(int a,int b ){
-  int c; 
-  printf("input number:", c);
-  scanf("d", & c);
-   
-  char g [5];
-
-  a = 1 +2;
-}
-int msn(int d, int g){
-  int h;
-  while (g < 10){
-    h = 3 + 3;
-    printf("h=%d", h);
+  int c = 4 * 2;
+  printf("%d", c);
+  
+  int i = 1;
+  while(i <= 3) {
+    printf("%d", i);
+    i = i + 1;
   }
+
+  if (i < 8) {
+    printf("%d", i);
+  }
+
+  if (i > 10) {
+    printf("%d", i);
+  }
+
 }

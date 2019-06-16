@@ -12,22 +12,24 @@ void code_gen(struct AST *root)
 		regValAri[i] = 0;
 	}
 	countJmp = 5;
-	fprintf(asmb, "section .text");
+	fprintf(asmb, "section .text\n");
 	fprintf(asmb, "\tglobal\tmain\n");
 	fprintf(asmb, "main:\n");
 	Push("rbp");
 	Mov("rbp", "rsp");
 
-	int sizeTab = root->table->sizeTable * 2;
-	char *size = (char*) calloc(getSizeNumber(sizeTab), sizeof(char));
-	sprintf(size, "%d", sizeTab);
+	// int sizeTab = root->ListChildren->next->Node->ListChildren->Node->table->sizeTable * 2;
+	// int sizeTab = 
+	// char *size = (char*) calloc(getSizeNumber(sizeTab), sizeof(char));
+	// sprintf(size, "%d", sizeTab);
 	
-	Sub("rsp", size);
+	// Sub("rsp", size);
+	Sub("rsp", "80");
 
 	treversal(root);
 
-	Add("rsp", size);
-	free(size);
+	Add("rsp", "80");
+	// free(size);
 
 	Pop("rbp");
 
@@ -39,9 +41,9 @@ void code_gen(struct AST *root)
 	fprintf(asmb, "\textern\tscanf\n\n");
 
 	fprintf(asmb, "section .data\n");
-	fprintf(asmb, "\tformString db \"%s\", 10, 0\n", "%%s");
-	fprintf(asmb, "\tformInt db \"%s\", 10, 0\n", "%%d");
-	fprintf(asmb, "\tformInInt db \"%s\", 0\n", "%%d");
+	fprintf(asmb, "\tformString db \"%s\", 10, 0\n", "\%s");
+	fprintf(asmb, "\tformInt db \"%s\", 10, 0\n", "\%d");
+	fprintf(asmb, "\tformInInt db \"%s\", 0\n", "\%d");
 	fprintf(asmb, "\tbufInInt dq 0\n");
 
 
@@ -88,7 +90,7 @@ void treversal(struct AST *node)
 		createWhile(node);
 		currTable = table;
 		//printf("!!!!! \n");
-	} else if (strcmp(node->Line, "printf") == 0) {
+	} else if (strcmp(node->Line, "Printf") == 0) {
 		createPrint(node->ListChildren->Node);
 		//printf("!!!!! \n");
 	}else if (strcmp(node->Line, "scanf") == 0) {
@@ -148,11 +150,12 @@ void createPrint(struct AST *node)
 	Push("rsi");
 	fprintf(asmb, "\n");
 
-	if (node->Token != NULL) 
+	struct AST* child = node->ListChildren->Node;
+	if (child->Token != NULL) 
 	{
-		char *lexeme = node->Token->lexeme;
+		char *lexeme = child->Token->lexeme;
 
-		if (strcmp(node->Token->token, "var") == 0) 
+		if (strcmp(child->Line, "var") == 0) 
 		{
 			struct listnode *hashtab = Find_in_all_table(currTable, lexeme);
 			if (hashtab->type == 1) {
@@ -218,16 +221,7 @@ char* rightPart(struct AST *node)
 		Mov(reg, node->Token->lexeme);
 		return reg;
 	}else if(strcmp(node->Line, "var") == 0)
-	///////////////////////////////////
-	//////////////////////////////что у меня будет вместо id 
-////////////////////////////////////
-//////////////////////////////////
-////////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-//////////////////////////////////////
-///////////////////////////////////////
-	///////////////////////////////////
+	
 	{
 		char *reg = regAriNumToStr(getRegForAri());
 
@@ -242,22 +236,26 @@ char* rightPart(struct AST *node)
 		free(addr);
 		return reg;
 	}
-		char *str1 = rightPart(node->ListChildren->Node);
+	char *str1 = rightPart(node->ListChildren->Node);
 	char *str2 = rightPart(node->ListChildren->next->Node);
 
-	if (strcmp(node->Line, "plus") == 0) {
+	if (strcmp(node->Line, "plus") == 0) 
+	{
 		Add(str1, str2);
 		freeRegValAri(str2);
 		free(str2);
-	} else if (strcmp(node->Line, "minus") == 0) {
+	} else if (strcmp(node->Line, "minus") == 0) 
+	{
 		Sub(str1, str2);
 		freeRegValAri(str2);
 		free(str2);
-	} else if (strcmp(node->Line, "star") == 0) {
+	} else if (strcmp(node->Line, "star") == 0) 
+	{
 		Imul(str1, str2);
 		freeRegValAri(str2);
 		free(str2);
-	} else if (strcmp(node->Line, "division") == 0) {
+	} else if (strcmp(node->Line, "division") == 0) 
+	{
 		Mov("rax", str1);
 
 		char *buf = NULL;
